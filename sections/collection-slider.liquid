@@ -1,0 +1,50 @@
+<section class="splide collections-slider">
+  <div class="splide__track">
+    <div class="splide__list">
+      {% if section.settings.selected_collections != empty %}
+        {% for collection in section.settings.selected_collections %}
+          <a href="{{collection.url }}" class="splide__slide">
+            <div class="collection-slide-info-box">
+              <button>{{ collection.title }}</button>
+            </div>
+            <img
+              src="{{ collection | img_url: '400x555' }}"
+              loading="lazy"
+              alt="">
+          </a>
+        {% endfor %}
+      {% else %}
+        {% for collection in collections %}
+          <a href="{{collection.url }}" class="splide__slide">
+            <div class="collection-slide-info-box">
+              <button>{{ collection.title }}</button>
+            </div>
+            <img
+              src="{{ collection | img_url: '400x555' }}"
+              loading="lazy"
+              alt="">
+          </a>
+        {% endfor %}
+      {% endif %}
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "collection-slider",
+    "settings": [
+      {
+        "type": "collection_list",
+        "id": "selected_collections",
+        "label": "Select the collections to display"
+      }
+    ],
+    "presets": [
+      {
+        "name": "collection-slider"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,43 @@
+<div class="product-card">
+  <div class="product-card-inner">
+    <div class="card-image">
+      {% if product.featured_image %}
+        <img
+          src="{{product.featured_image | img_url: 'large' }}"
+          alt="{{ product.featured_image.title }}"
+          loading="lazy">
+      {% else %}
+        {{ 'product-1' | placeholder_svg_tag: "w-full h-full object-cover bg-gray-200" }}
+      {% endif %}
+    </div>
+    <div class="product-tag">
+      <span>Best Seller</span>
+    </div>
+    <div class="variants-info">
+      <div class="color-variants">
+        <input
+          type="radio"
+          name="variant"
+          id="">
+        <input
+          type="radio"
+          name="variant"
+          id="">
+      </div>
+      <div class="size-variants">
+        {% for variant in product.options %}
+          <span>{{ variant.title }}</span>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <div class="product-card-info">
+    <div class="name-wishlist">
+      <a href="#" class="name">{{ product.title }}</a>
+      <div class="product-card-wishlist">
+        <i class="fa-solid fa-heart"></i>
+      </div>
+    </div>
+    <div class="price">{{ product.price | money_with_currency }}</div>
+  </div>
+</div>

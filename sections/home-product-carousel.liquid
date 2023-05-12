@@ -1,0 +1,57 @@
+<section class="product-carousel">
+  <h3>Trending</h3>
+  <div class="carousel-nav">
+    <div class="carousel-nav-button">
+      <span class="active">New arrivals</span>
+    </div>
+    <div class="carousel-nav-button">
+      <span>Best Seller</span>
+    </div>
+    <div class="carousel-nav-button">
+      <span>On Sale</span>
+    </div>
+  </div>
+  <div class="carousel-container">
+    <div class="carousel-body active">
+      {% for product in collections['women'].products limit: 8 %}
+        {% include 'product-card' product: product %}
+      {% endfor %}
+    </div>
+    <div class="carousel-body">
+      {% for product in collections['men'].products limit: 8 %}
+        {% include 'product-card' product: product %}
+      {% endfor %}
+    </div>
+    <div class="carousel-body">
+      {% for product in collections['sale-collection'].products limit: 8 %}
+        {% include 'product-card' product: product %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "home-product-carousel",
+    "settings": [
+      {
+        "type": "collection_list",
+        "id": "selected_collections_1",
+        "label": "Select the collections to display"
+      }, {
+        "type": "collection_list",
+        "id": "selected_collections_2",
+        "label": "Select the collections to display"
+      }, {
+        "type": "collection_list",
+        "id": "selected_collections_3",
+        "label": "Select the collections to display"
+      }
+    ],
+    "presets": [
+      {
+        "name": "home-product-carousel"
+      }
+    ]
+  }
+{% endschema %}

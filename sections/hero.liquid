@@ -1,0 +1,67 @@
+<section class="splide hero" aria-labelledby="carousel-heading">
+
+  <div class="splide__track">
+    <ul class="splide__list">
+      <li class="splide__slide">
+        <div class="slide-info-box">
+          <h1>End of <br>season sale</h1>
+          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt, dolor?</p>
+
+          <a href="{{ section.settings.product1_url.url }}">
+            <button>Buy Now</button>
+          </a>
+        </div>
+        {% if section.settings.heroBackground != blank %}
+          <img
+            src="{{ section.settings.image1.src | image_url: 'master' }}"
+            loading="lazy"
+            alt="">
+        {% else %}
+          <img
+            src="https://cdn.shopify.com/s/files/1/0651/3157/7585/files/f17-sl3.jpg?v=1661240357&width=2000"
+            loading="lazy"
+            alt="">;
+        {% endif %}
+
+      </li>
+      <li class="splide__slide">
+        <div class="slide-info-box">
+          <h1>Surf <br>the sunset</h1>
+          <p>Colour the summer in hot fuscia, bubblegum pink</p>
+          <button>SHOP NOW</button>
+        </div>
+        <img src="https://cdn.shopify.com/s/files/1/0651/3157/7585/files/fs17-sl1.jpg?v=1660789054" alt="">
+      </li>
+      <li class="splide__slide">
+        <div class="slide-info-box">
+          <h1>Spring <br>Collection</h1>
+          <p>Colour the summer in hot fuscia, bubblegum pink</p>
+          <button>SHOP NOW</button>
+        </div>
+        <img src="https://cdn.shopify.com/s/files/1/0651/3157/7585/files/f17-sl2.jpg?v=1661240357&width=2000" alt="">
+      </li>
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "hero",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image1",
+        "label": "New background for main image"
+      }, {
+        "type": "product",
+        "id": "product1_url",
+        "label": "Pick the product one for buy now button"
+      }
+    ],
+    "presets": [
+      {
+        "name": "hero"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,43 @@
+<section class="banner-with-text">
+  <div class="banner-info">
+    <h2>Unsen<br> fashion store.</h2>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos explicabo assumenda cum autem totam maxime magni
+      quasi sapiente sed modi!</p>
+    <a href="{{ section.settings.button_url }}">
+      <button>{{ section.settings.button_text }}</button>
+    </a>
+  </div>
+  <div class="banner-images">
+    <div class="main-image">
+      <img src="https://cdn.shopify.com/s/files/1/0651/3157/7585/files/layer2.png?v=1661308150&width=1000" alt="">
+    </div>
+    <div class="secondry-image">
+      <img src="https://cdn.shopify.com/s/files/1/0651/3157/7585/files/layer1.png?v=1661308150&width=600" alt="">
+    </div>
+    <div class="text-loop"></div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "image-with-text",
+    "settings": [
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "change the button text",
+        "default": "READ MORE"
+      }, {
+        "type": "url",
+        "id": "button_url",
+        "label": "Select the button URL",
+        "default": "/"
+      }
+    ],
+    "presets": [
+      {
+        "name": "image-with-text"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,28 @@
+{
+    "name": "index",
+    "sections": {
+      "hero": {
+        "type": "hero",
+        "settings": {
+        }
+        },
+        "timer":{
+            "type":"timer"
+        },
+        "collection-slider":{
+          "type": "collection-slider"
+        },
+        "image-with-text":{
+          "type": "image-with-text"
+        },
+          "testimonials-slider":{
+            "type": "testimonials-slider"
+          },
+          "instagram-slider":{
+            "type": "instagram-slider"
+          }
+        
+    },
+    "order": ["hero","timer","collection-slider","image-with-text","testimonials-slider","instagram-slider"]
+  }
+  

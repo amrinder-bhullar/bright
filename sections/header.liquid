@@ -1,0 +1,138 @@
+{% assign main_menu_linklist = linklists[section.settings.desktop_menu].links %}
+
+<!-- Desktop menu -->
+
+<nav class="navbar sticky">
+  <!-- mobile menu burger-->
+  <div class="mobile-menu-icon">
+    <i class="fa-solid fa-bars"></i>
+  </div>
+  <div class="logo-box">
+    <a href="/" class="logo">
+      {{ shop.name }}
+    </a>
+  </div>
+  <div class="navbar-box">
+    <ul class="main-menu">
+      {% for link in main_menu_linklist %}
+        {% if link.links != blank %}
+          <li class="menu-item has-submenu">
+            <a href="{{ link.url }}">{{ link.title }}
+              <span class="menu-dropdown-icon">{% render 'icon-down' %}</span>
+            </a>
+
+            {% render 'mega-menu' link: link %}
+          </li>
+        {% else %}
+          <li class="menu-item">
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="user-box">
+    <ul>
+      <li>
+        <a href="#">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </a>
+      </li>
+      {% if shop.customer_accounts_enabled %}
+        <li>
+          <a href="{{ routes.account_login_url }}">
+            <i class="fa-solid fa-user"></i>
+          </a>
+        </li>
+      {% endif %}
+      <li>
+        <a href="#">
+          <i class="fa-solid fa-heart"></i>
+        </a>
+      </li>
+      <li class="nav-cart-box">
+        <a href="{{ routes.cart_url }}">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="items-in-cart">
+            <span>{{ cart.item_count }}</span>
+          </span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <!-- mobile cart box -->
+  <div class="nav-cart-box-mobile">
+    <a href="{{ routes.cart_url }}">
+      <i class="fa-solid fa-bag-shopping"></i>
+      <span class="items-in-cart">
+        <span>{{ cart.item_count }}</span>
+      </span>
+    </a>
+  </div>
+</nav>
+<div class="mobile-menu-drawer">
+  <div class="menu-header">
+    <div>{{ section.settings.mobile_menu_title }}</div>
+    <div class="mobile-menu-close">
+      <i class="fa-solid fa-xmark"></i>
+    </div>
+  </div>
+  <div class="mobile-menu-links">
+    {% for link in linklists.main-menu.links %}
+      {% if link.links != blank %}
+        <div class="menu-item has-submenu-mobile">
+          <div>{{ link.title }}</div>
+          <div class="mobile-plus">
+            <i class="fa-solid fa-plus"></i>
+          </div>
+        </div>
+        <div class="mobile-childlinks">
+          {% for childlink in link.links %}
+            <div class="submenu-item">
+              <a href="{{ childlink.url }}">{{ childlink.title }}</a>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="menu-item">
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        </div>
+      {% endif %}
+    {% endfor %}
+    <div class="user-box">
+      <div class="menu-item">
+        <a href="#">
+          <i class="fa-solid fa-magnifying-glass"></i>Search</a>
+      </div>
+      <div class="menu-item">
+        <a href="{{ routes.account_login_url }}">
+          <i class="fa-solid fa-user"></i>Login/register</a>
+      </div>
+      <div class="menu-item">
+        <a href="#">
+          <i class="fa-solid fa-heart"></i>Wishlist</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% comment %} <div class="mobile-menu-overlay is-active"></div> {% endcomment %}
+
+{% schema %}
+  {
+    "name": "Navbar",
+    "settings": [
+      {
+        "type": "text",
+        "id": "mobile_menu_title",
+        "label": "Text to display above mobile menu",
+        "default": "MENU",
+        "info": "the default is MENU"
+      }, {
+        "type": "link_list",
+        "id": "desktop_menu",
+        "label": "Select Desktop menu",
+        "default": "main-menu"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,36 @@
+<section class="timer-container">
+  <div class="timer-info-box">
+    <div class="timer-info">
+      <h1>Deal of the day</h1>
+    </div>
+    <div class="timer-box">
+      <div>
+        <span class="discount">10% OFF</span>
+      </div>
+      <span>Adjustable Bowline Necklace</span>
+      <span class="price">$86.00</span>
+      <div class="timer"></div>
+      <div>
+        <button>View full details</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "timer",
+    "settings": [
+      {
+        "type": "product",
+        "id": "product1_url",
+        "label": "Pick the product one for buy now button"
+      }
+    ],
+    "presets": [
+      {
+        "name": "timer"
+      }
+    ]
+  }
+{% endschema %}

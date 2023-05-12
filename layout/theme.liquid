@@ -10,11 +10,18 @@
     {{ content_for_header }}
     <!-- Header hook for plugins -->
     {{ 'application.css' | asset_url | stylesheet_tag }}
-    {{ 'application.js' | asset_url | script_tag }}
+    <link rel="stylesheet" href="{{'theme.css' | asset_url}}">
+    <link rel="stylesheet" href="{{'splide.css' | asset_url}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    {% comment %} {{ 'application.js' | asset_url | script_tag }} {% endcomment %}
+    <script src="{{'splide.js' | asset_url}}" defer></script>
+    <script src="{{'application.js' | asset_url}}" defer></script>
   </head>
   <body>
+    {% section 'header' %}
     <main role="main">
       {{ content_for_layout }}
     </main>
+    {% section 'footer' %}
   </body>
 </html>

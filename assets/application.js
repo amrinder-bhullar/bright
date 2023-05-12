@@ -142,5 +142,13 @@ new Splide(".splide.instagram-latest-posts", {
   type: "loop",
   pagination: false,
   arrows: false,
+  breakpoints: {
+    768: {
+      perPage: 3,
+    },
+    640: {
+      perPage: 2,
+    },
+  },
   // rewind: true,
 }).mount();

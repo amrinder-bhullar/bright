@@ -367,14 +367,16 @@ html {
   max-width: 80%;
   visibility: hidden;
   opacity: 0;
+  transform: translateY(40px);
   transition: all 0.3s;
 }
 .carousel-body.active {
   display: grid;
   visibility: visible;
   opacity: 1;
+  transform: translateY(0);
 }
-@media (min-width: 1100px) {
+@media (max-width: 1100px) {
   .carousel-body {
     max-width: calc(100% - 60px);
   }
@@ -382,6 +384,11 @@ html {
 @media (max-width: 768px) {
   .carousel-body {
     grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+@media (max-width: 576px) {
+  .carousel-body {
+    grid-template-columns: 1fr 1fr;
   }
 }
 .carousel-body .product-card .product-card-inner {

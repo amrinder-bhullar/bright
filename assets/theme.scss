@@ -47,8 +47,10 @@ $screen-xl-min: 1200px;
     }
  }
 
- @mixin rwd($screen) {
-    @media (min-width: $screen+'px') {
+
+// Custom devices
+@mixin rwd($screen) {
+    @media (max-width: $screen+'px') {
         @content;
     }
  }
@@ -481,12 +483,14 @@ html {
     visibility: hidden;
     opacity: 0;
     // transition: max-width 0.3s, visibility 0.3s opacity 0.3s;
+    transform: translateY(40px);
     transition: all 0.3s;
 
     &.active{
         display: grid;
         visibility: visible;
         opacity: 1;
+        transform: translateY(0);
     }
 
     @include rwd(1100){
@@ -495,6 +499,10 @@ html {
 
     @include md{
         grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    @include sm {
+        grid-template-columns: 1fr 1fr;
     }
 
     .product-card{

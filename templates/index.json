@@ -9,6 +9,9 @@
         "timer":{
             "type":"timer"
         },
+        "home-product-carousel": {
+          "type": "home-product-carousel"
+        },
         "collection-slider":{
           "type": "collection-slider"
         },
@@ -23,6 +26,6 @@
           }
         
     },
-    "order": ["hero","timer","collection-slider","image-with-text","testimonials-slider","instagram-slider"]
+    "order": ["hero","timer","home-product-carousel","collection-slider","image-with-text","testimonials-slider","instagram-slider"]
   }
   

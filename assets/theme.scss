@@ -758,6 +758,14 @@ footer{
     justify-content: space-between;
     padding: 30px;
 
+    @include md{
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    @include sm{
+        grid-template-columns: 1fr 1fr;
+    }
+
     section {
         h3{
             font-size: 13px;

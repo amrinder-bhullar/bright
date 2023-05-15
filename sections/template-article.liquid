@@ -1,1 +1,188 @@
-<h1>{{ article.title }}</h1>
+<article
+  class="blog-article"
+  itemscope
+  itemtype="http://schema.org/BlogPosting">
+  {% for block in section.blocks %}
+    {% case block.type %}
+      {% when 'article_category' %}
+      <div class="article-category">
+        <a href="{{ blog.url }}">{{ blog.title }}</a>
+      </div>
+      {% when 'article_title' %}
+      <h1 class="article-title" itemprop="headline">{{ article.title }}</h1>
+      {% when 'article_author' %}
+      <div class="article-author-box">
+        {% if section.settings.enable_author %}
+          <div
+            class="article-author"
+            itemscope
+            itemtype="http://schema.org/Person">
+            <i class="fa-solid fa-user"></i>
+            <span>By:
+            </span>
+            <span>{{ article.author }}</span>
+          </div>
+        {% endif %}
+        {% if article.comments_enabled? %}
+          <div class="article-comments-top">
+            <i class="fa-solid fa-comment"></i>
+            <span>{{ article.comments_count }}</span>
+            <span>comments</span>
+          </div>
+        {% endif %}
+      </div>
+      {% when 'article_date' %}
+      {% if section.settings.enable_published_date %}
+        <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: '%Y-%m-%d' }}</time>
+      {% endif %}
+      {% when 'featured_image' %}
+      <div class="article-featured-image">
+        {% if article.image != blank %}
+          <img
+            src="{{ article.image | img_url: 'master' }}"
+            alt="{{ article.image.alt }}"
+            loading="lazy">
+        {% else %}
+          {% assign placeholder_image = 'lifestyle-2' %}
+          {{ placeholder_image | placeholder_svg_tag: 'w-full h-80 md:h-96 object-cover object-center p-5' }}
+        {% endif %}
+      </div>
+      {% when 'article_content' %}
+      <div class="article-content">
+        <div itemprop="articleBody" class="article-content-inner">
+          {{ article.content }}
+        </div>
+      </div>
+      <div class="article-tags">
+        {% for tag in article.tags %}
+          <span class="article-tag">{{ tag }}</span>
+        {% endfor %}
+      </div>
+  {% else %}
+    {% endcase %}
+  {% endfor %}
+</article>
+
+{% if article.comments_enabled? %}
+  <div id="comments" class="article-comments">
+    {% if article.comments_count > 0 %}
+      {% for item in article.comments %}
+        <div class="comment-box">
+          <div class="comment-author">
+            <i class="fa-solid fa-user-tie"></i>
+            {{ item.author }}</div>
+          <div class="comment-content">{{ item.content }}</div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="no-comments">
+        Be the first one to comment on this article</div>
+    {% endif %}
+  </div>
+  <div id="comment_form" class="comment-form">
+    <h3>Leave a comment</h3>
+    <p>Your email address will not be published. Required fields are marked
+      <span>*</span>
+    </p>
+    {% form 'new_comment', article %}
+      <div class="comment-form-container">
+        {% if form.errors %}
+          <div class="comment-errors-container">
+            <div class="comment-error-message">
+              <span>
+                {% render 'icon-failed' %}</span>
+              <div>oh no! your comment was not posted</div>
+            </div>
+            <ul class="comment-errors">
+              {% for error in form.errors %}
+                <li class="comment-error">{{ form.errors.messages[error] }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% elsif form.posted_successfully? %}
+          <div class="comment-success-message">
+            <span>{% render 'icon-success' %}</span>
+            <div>Your comment has been posted</div>
+          </div>
+        {% endif %}
+        <div class="comment-form-form">
+          <div class="comment-form-top">
+            <div class="comment-name">
+              <input
+                type="text"
+                name="comment[author]"
+                id="comment_author">
+              <label for="comment_author">Name</label>
+            </div>
+            <div class="comment-email">
+              <input
+                type="text"
+                name="comment[email]"
+                id="comment_email">
+              <label for="comment_email">email</label>
+            </div>
+          </div>
+          <div class="comment-body">
+            <textarea
+              name="comment[body]"
+              id="comment_content"
+              placeholder="Your message here..."></textarea>
+          </div>
+          <div class="comment-submit">
+            <button>Post Comment</button>
+          </div>
+        </div>
+      </div>
+    {% endform %}
+  </div>
+{% endif %}
+
+
+{% schema %}
+  {
+    "name": "Template Article",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_author",
+        "default": true,
+        "label": "Display author"
+      }, {
+        "type": "checkbox",
+        "id": "enable_published_date",
+        "default": false,
+        "label": "Display published date"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "article_category",
+        "name": "Category",
+        "limit": 1
+      },
+      {
+        "type": "article_title",
+        "name": "Title",
+        "limit": 1
+      },
+      {
+        "type": "article_author",
+        "name": "Author",
+        "limit": 1
+      },
+      {
+        "type": "article_date",
+        "name": "Published Date",
+        "limit": 1
+      }, {
+        "type": "featured_image",
+        "name": "Thumbnail",
+        "limit": 1
+      }, {
+        "type": "article_content",
+        "name": "Content",
+        "limit": 1
+      }
+    ]
+  }
+{% endschema %}

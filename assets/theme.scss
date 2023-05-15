@@ -887,3 +887,39 @@ footer{
         }
     }
 }
+
+// End of homePage
+
+// 404 Page
+
+.not-found-page{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    min-height: 800px;
+    padding: 40px 20px;
+
+    .not-found-image img {
+        width: 100%;
+    }
+
+    .not-found-heading{
+        font-weight: 400;
+    }
+
+    .not-found-subtext{
+        color: $pri-cl;
+        font-size: 15px;
+    }
+
+    .not-found-subtext{
+        a{
+            text-decoration: underline;
+            &:hover{
+                color: $primary-hover-color;
+            }
+        }
+    }
+}

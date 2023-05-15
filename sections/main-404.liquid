@@ -1,0 +1,30 @@
+<div class="not-found-page">
+    <div class="not-found-image"><img src="{{ section.settings.not_found_image | image_url: width: 400 }}" alt="" loading="lazy"></div>
+    <h1 class="not-found-heading">{{ section.settings.title }}</h1>
+    <p class="not-found-subtext">{{ section.settings.subtext_title }} <a href="/">Home page</a></p>
+</div>
+
+{% schema %}
+    {
+        "name": "Main-404",
+        "settings": [
+            {
+                "type": "text",
+                "id": "title",
+                "default": "Sorry! Page You Are Looking Can’t Be Found.",
+                "label": "404 Heading Title"
+            },
+            {
+                "type": "text",
+                "id": "subtext_title",
+                "default": "The page that you're looking for is not found go back to",
+                "label": "404 Subtext title"
+            }, 
+            {
+                "type": "image_picker",
+                "id": "not_found_image",
+                "label": "Select 404 image"
+            }
+        ]
+    }
+{% endschema %}

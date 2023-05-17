@@ -47,9 +47,10 @@
                   id="{{ item.key }}"
                   value="{{ item.quantity }}"
                   data-key="{{ item.key }}"
+                  data-variant="{{ item.variant_id }}"
                   min="0">
               </td>
-              <td>
+              <td class="total-item-price">
                 {% if item.original_line_price != item.line_price %}
                   {{ item.original_line_price | money }}{% endif %}
                 {{ item.line_price | money }}
@@ -89,36 +90,10 @@
     Cart is empty
   {% endif %}
 </div>
-<script>
-    const QuantityInputs = document.querySelectorAll(".cart-item-quantity");
 
-    const handleQuantityChange = async (key, quantity) => {
-      const payload = {
-        updates: {
-          [key]: quantity,
-        },
-      };
-    
-      console.log(payload);
-      try {
-        const res = await fetch(window.location.pathname + `/update.js`, {
-          method: "POST",
-          body: payload,
-        });
-        const data = res.json();
-    
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    
-    QuantityInputs.forEach((Qinput, index) => {
-      Qinput.addEventListener("change", (e) => {
-        let quantity = e.target.value;
-        let key = e.target.dataset.key;
-    
-        handleQuantityChange(key, quantity);
-      });
-    });
-</script>
+{% schema %}
+    {
+    "name": "Template Cart",
+    "settings": []
+    }
+    {% endschema %}

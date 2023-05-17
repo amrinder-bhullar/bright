@@ -2,7 +2,7 @@
 
 <!-- Desktop menu -->
 
-<nav class="navbar sticky">
+<nav class="navbar sticky" data-section="{{ section.id }}">
   <!-- mobile menu burger-->
   <div class="mobile-menu-icon">
     <i class="fa-solid fa-bars"></i>
@@ -54,7 +54,7 @@
         <a href="{{ routes.cart_url }}">
           <i class="fa-solid fa-bag-shopping"></i>
           <span class="items-in-cart">
-            <span>{{ cart.item_count }}</span>
+            <span id="header-cart-count">{{ cart.item_count }}</span>
           </span>
         </a>
       </li>

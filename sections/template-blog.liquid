@@ -1,0 +1,119 @@
+<div class="blog-page">
+  <h1 class="blog-title">{{ blog.title }}</h1>
+  <div class="page-location-container">
+    <span>
+      <a href="/">Home</a>
+    </span>
+    <span>
+      >
+    </span>
+    <span>{{ blog.title }}</span>
+  </div>
+
+  <div class="blog-tags">
+    <a class="blog-tag active" href="{{ blog.url }}">All</a>
+    {% for tag in blog.tags %}
+      <a class="blog-tag" href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
+    {% endfor %}
+  </div>
+  <div class="blog-body">
+    <div class="blog-articles">
+      {% paginate blog.articles by section.settings.number_of_blog_posts %}
+        {% for article in blog.articles %}
+          <div class="blog-page-article">
+            <div class="blog-article-image-container">
+              <img
+                src="{{ article.image | img_url: 'large' }}"
+                loading="lazy"
+                alt="">
+            </div>
+            <div class="blog-article-blogname">
+              {{ blog.title }}
+            </div>
+            <h2>
+              <a href="{{ article.url }}">{{ article.title }}</a>
+            </h2>
+            <div class="blog-article-info">
+              <div class="blog-article-author">
+                <span>
+                  <i class="fa-solid fa-user"></i>
+                  By:
+                </span>
+                <span>
+                  {{ article.author }}</span>
+              </div>
+              <div class="blog-article-comments">
+                <span>
+                  <i class="fa-solid fa-comment"></i>
+                  {{ article.comments_count }} comments</span>
+              </div>
+            </div>
+            <div>
+              {% if article.excerpt.size > 0 %}
+                {{ article.excerpt }}
+              {% else %}
+                <p class="article-excerpt">{{ article.content | strip_html | truncatewords: 13 }}</p>
+              {% endif %}
+            </div>
+            <div class="article-link">
+              <a href="{{ article.url }}">
+                <button>
+                  {{ section.settings.text_of_article_url }}</button>
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+
+        {% if paginate.pages > 1 %}
+          {{ paginate | default_pagination }}
+        {% endif %}
+      {% endpaginate %}
+    </div>
+    <aside class="blog-sidebar">
+      <div class="popular-posts">
+        <div class="popular-posts-heading">
+          <span>Popular Post</span>
+        </div>
+        <div class="popular-posts-body">
+          {% for article in blog.articles limit: 3 %}
+            <div class="pop-blog-post">
+              <div class="pop-blog-img-container">
+                <img
+                  src="{{ article.image | img_url: width: '200x200' }}"
+                  loading="lazy"
+                  alt="">
+              </div>
+              <div class="pop-blog-post-info">
+                <div class="pop-blog-post-title">{{ article.title }}</div>
+                <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: '%Y-%m-%d' }}</time>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% include 'newsletter' %}
+    </aside>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Blog",
+    "settings": [
+      {
+        "type": "text",
+        "id": "text_of_article_url",
+        "label": "Text of Read More",
+        "default": "Read More"
+      }, {
+        "type": "range",
+        "id": "number_of_blog_posts",
+        "step": 1,
+        "min": 1,
+        "max": 6,
+        "label": "Blog posts per page",
+        "default": 3
+      }
+    ]
+  }
+{% endschema %}

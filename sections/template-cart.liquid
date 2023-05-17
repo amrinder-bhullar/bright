@@ -1,0 +1,124 @@
+<div class="cart-page" data-section="{{ section.id }}">
+  <h1 class="page-title">Shopping cart</h1>
+
+  {% if cart.item_count > 0 %}
+    <form
+      action="/cart"
+      method="post"
+      novalidate>
+      <table>
+        <thead>
+          <th></th>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>total</th>
+        </thead>
+        <tbody>
+          {% for item in cart.items %}
+            <tr>
+              <td>
+                <a href="{{routes.cart_change_url}}?quantity=0&amp;{{ item.variant.id }}">
+                  <i class="fa-solid fa-x"></i>
+                </a>
+              </td>
+              <td class="cart-product-info">
+                <a href="{{ item.url | within: collections.all }}">
+                  <img
+                    class="cart-product-image"
+                    src="{{ item | img_url: 'medium' }}"
+                    alt="{{ item.title | escape }}">
+                </a>
+                <div class="cart-product-name">
+                  <a href="{{ item.url }}">{{ item.title }}</a>
+                  <br>
+                  {% if item.product.has_only_default_variant %}
+                    {% else %}
+                      {{ item.variant.title }}
+                  {% endif %}
+                </div>
+              </td>
+              <td>{{ item.price | money }}</td>
+              <td>
+                <input
+                  type="number"
+                  class="cart-item-quantity"
+                  name="updates[]"
+                  id="{{ item.key }}"
+                  value="{{ item.quantity }}"
+                  data-key="{{ item.key }}"
+                  min="0">
+              </td>
+              <td>
+                {% if item.original_line_price != item.line_price %}
+                  {{ item.original_line_price | money }}{% endif %}
+                {{ item.line_price | money }}
+                {% for discount in item.discounts %}
+                  {{ discount.title }}{% endfor %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="cart-info">
+        <div class="cart-details">
+          <label for="CartSpecialInstructions" class="t4s-cart-note__label">
+            <span class="t4s-txt_add_note">
+               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>Add Order Note
+            </span>
+          </label>
+          <textarea
+            name="note"
+            id="CartSpecialInstructions"
+            class="cart-note__input"
+            placeholder="How can we help you?"></textarea>
+            <label for="CartDiscountcode" class="t4s-cart-couponcode__label">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"></line><circle cx="6.5" cy="6.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle></svg>Coupon:</label>
+            <p>Coupon code will work on checkout page</p>
+            <input type="text" class="cart-discount" data-name="discount" id="CartDiscountcode" value="" placeholder="Coupon code">
+        </div>
+        <div class="form-details-buttons">
+          <p class="cart-total">subtotal : {{ cart.total_price | money }}</p>
+          <button class="cart-update" type="submit" name="update">Update</button>
+          <button class="cart-checkout" type="submit" name="checkout">Checkout</button>
+        </div>
+      </div>
+    </form>
+  {% else %}
+    <h2>cart</h2>
+    Cart is empty
+  {% endif %}
+</div>
+<script>
+    const QuantityInputs = document.querySelectorAll(".cart-item-quantity");
+
+    const handleQuantityChange = async (key, quantity) => {
+      const payload = {
+        updates: {
+          [key]: quantity,
+        },
+      };
+    
+      console.log(payload);
+      try {
+        const res = await fetch(window.location.pathname + `/update.js`, {
+          method: "POST",
+          body: payload,
+        });
+        const data = res.json();
+    
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    
+    QuantityInputs.forEach((Qinput, index) => {
+      Qinput.addEventListener("change", (e) => {
+        let quantity = e.target.value;
+        let key = e.target.dataset.key;
+    
+        handleQuantityChange(key, quantity);
+      });
+    });
+</script>

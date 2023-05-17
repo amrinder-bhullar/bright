@@ -633,50 +633,51 @@ footer section ul li, footer section ul li a {
 footer section ul li:hover, footer section ul li a:hover {
   color: #222222;
 }
-footer .newsletter {
+
+.newsletter {
   padding: 20px 0;
 }
-footer .newsletter h2 {
+.newsletter h2 {
   font-weight: 400;
   letter-spacing: 1px;
   font-size: 26px;
   margin-bottom: 20px;
 }
-footer .newsletter p {
+.newsletter p {
   font-size: 14px;
   letter-spacing: 0.3px;
   line-height: 20px;
   color: #868686;
   margin-bottom: 20px;
 }
-footer .newsletter .newsletter-input {
+.newsletter .newsletter-input {
   display: flex;
   border-bottom: 2px solid black;
   margin-bottom: 30px;
 }
-footer .newsletter .newsletter-input input {
+.newsletter .newsletter-input input {
   border: none;
   background-color: transparent;
   width: 65%;
   padding: 10px 0;
   font-size: 14px;
 }
-footer .newsletter .newsletter-input button {
+.newsletter .newsletter-input button {
   width: 35%;
   border: none;
   background-color: transparent;
 }
-footer .newsletter .socials {
+.newsletter .socials {
   display: flex;
   gap: 10px;
 }
-footer .newsletter .socials span {
+.newsletter .socials span {
   width: 40px;
   height: 40px;
   background-color: white;
   border-radius: 50%;
 }
-footer .newsletter .socials span i {
+.newsletter .socials span i {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -882,6 +883,15 @@ footer .newsletter .socials span i {
 .comment-form .comment-form-container {
   width: 100%;
 }
+.comment-form .comment-form-container .comment-errors-container .comment-error-message {
+  display: flex;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+  color: red;
+}
+.comment-form .comment-form-container .comment-errors-container .comment-error-message span {
+  width: 25px;
+}
 .comment-form .comment-form-form .comment-form-top {
   display: flex;
   align-items: center;
@@ -947,5 +957,245 @@ footer .newsletter .socials span i {
   color: white;
 }
 .comment-form .comment-form-form .comment-submit button:hover {
+  background-color: #0ec1ae;
+}
+
+.blog-page {
+  display: flex;
+  flex-direction: column;
+}
+.blog-page .blog-title {
+  font-size: 42px;
+  font-weight: 400;
+  text-align: center;
+  padding-top: 30px;
+}
+.blog-page .page-location-container {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.blog-page .page-location-container span {
+  color: #868686;
+  font-size: 14px;
+}
+.blog-page .blog-tags {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  margin: 20px auto;
+  border: 1px solid #e6e6e6;
+  padding: 20px 50px;
+}
+.blog-page .blog-tags .blog-tag {
+  color: #868686;
+  font-size: 18px;
+  font-weight: 500;
+  padding-bottom: 5px;
+}
+.blog-page .blog-tags .blog-tag.active {
+  color: black;
+  border-bottom: 2px solid black;
+}
+.blog-page .blog-body {
+  display: flex;
+  width: calc(100% - 60px);
+  margin: 0 auto;
+  justify-content: space-between;
+}
+@media (max-width: 768px) {
+  .blog-page .blog-body {
+    flex-direction: column;
+  }
+}
+.blog-page .blog-body .blog-articles {
+  margin-bottom: 30px;
+  flex: 0 0 75%;
+}
+@media (max-width: 1000px) {
+  .blog-page .blog-body .blog-articles {
+    flex-basis: 100%;
+  }
+}
+.blog-page .blog-body .blog-articles .blog-page-article {
+  margin-bottom: 30px;
+}
+.blog-page .blog-body .blog-articles .blog-page-article .blog-article-blogname {
+  color: #868686;
+}
+.blog-page .blog-body .blog-articles .blog-page-article h2 {
+  font-size: 28px;
+  font-weight: 400;
+}
+.blog-page .blog-body .blog-articles .blog-page-article .blog-article-info {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #868686;
+  font-size: 14px;
+}
+.blog-page .blog-body .blog-articles .blog-page-article .blog-article-info i {
+  margin-right: 5px;
+}
+.blog-page .blog-body .blog-articles .blog-page-article .blog-article-info .blog-article-comments {
+  padding-left: 10px;
+  border-right: 1px solid #e6e6e6;
+}
+.blog-page .blog-body .blog-articles .blog-page-article .article-excerpt {
+  margin-top: 20px;
+  color: #868686;
+  font-size: 14px;
+}
+.blog-page .blog-body .blog-articles .blog-page-article .article-link {
+  margin-top: 20px;
+}
+.blog-page .blog-body .blog-articles .blog-page-article .article-link button {
+  cursor: pointer;
+  border: none;
+  border-bottom: 1px solid black;
+  background-color: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 5px 0;
+}
+.blog-page .blog-body .blog-articles .blog-page-article .article-link button:hover {
+  color: #0ec1ae;
+  border-color: #0ec1ae;
+}
+.blog-page .blog-body .blog-sidebar {
+  flex: 0 1 10%;
+}
+@media (max-width: 1000px) {
+  .blog-page .blog-body .blog-sidebar {
+    display: none;
+  }
+}
+.blog-page .blog-body .blog-sidebar .popular-posts {
+  border: 1px solid #e6e6e6;
+}
+.blog-page .blog-body .blog-sidebar .popular-posts .popular-posts-heading {
+  padding: 10px 20px;
+  border-bottom: 1px solid #e6e6e6;
+}
+.blog-page .blog-body .blog-sidebar .popular-posts .popular-posts-heading span {
+  padding: 1px 10px;
+  border-left: 2px solid black;
+  text-transform: uppercase;
+}
+.blog-page .blog-body .blog-sidebar .popular-posts .popular-posts-body .pop-blog-post {
+  display: flex;
+  font-size: 13px;
+  padding: 10px;
+  border-bottom: 1px solid #e6e6e6;
+}
+.blog-page .blog-body .blog-sidebar .popular-posts .popular-posts-body .pop-blog-post .pop-blog-img-container {
+  padding: 5px;
+  min-height: 80px;
+  min-width: 80px;
+}
+.blog-page .blog-body .blog-sidebar .popular-posts .popular-posts-body .pop-blog-post .pop-blog-img-container img {
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+}
+.blog-page .blog-body .blog-sidebar .popular-posts .popular-posts-body .pop-blog-post .pop-blog-post-info {
+  flex-basis: 80%;
+  padding: 5px;
+}
+
+.cart-page {
+  width: calc(100% - 60px);
+  margin: 40px auto;
+}
+.cart-page .page-title {
+  text-align: center;
+  padding: 20px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid #e6e6e6;
+}
+.cart-page form table {
+  width: 100%;
+  text-align: center;
+}
+.cart-page form table td {
+  padding: 10px;
+}
+.cart-page form table td .cart-product-image {
+  height: 80px;
+  width: 60px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center center;
+     object-position: center center;
+}
+.cart-page form table td.cart-product-info {
+  display: flex;
+  align-items: start;
+  justify-content: flex-start;
+  -moz-column-gap: 20px;
+       column-gap: 20px;
+}
+.cart-page form table td .cart-item-quantity {
+  padding: 5px 10px;
+  text-align: center;
+}
+.cart-page form table td .cart-item-quantity:focus {
+  outline: none;
+}
+.cart-page form .cart-info {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+.cart-page form .cart-info .cart-details {
+  flex-basis: 50%;
+}
+.cart-page form .cart-info .cart-details label {
+  display: block;
+  margin: 10px 0;
+}
+.cart-page form .cart-info .cart-details .cart-note__input {
+  width: 100%;
+  height: 120px;
+  padding: 20px;
+  resize: none;
+  border: 1px solid #e6e6e6;
+}
+.cart-page form .cart-info .cart-details .cart-note__input:focus {
+  outline: none;
+  border-color: black;
+}
+.cart-page form .cart-info .cart-details .cart-discount {
+  margin-top: 20px;
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #e6e6e6;
+}
+.cart-page form .cart-info .cart-details .cart-discount:focus {
+  outline: none;
+  border-color: black;
+}
+.cart-page form .cart-info .form-details-buttons .cart-total {
+  text-transform: uppercase;
+}
+.cart-page form .cart-info .form-details-buttons button {
+  padding: 12px 30px;
+  color: white;
+  background-color: black;
+  border: 1px solid white;
+  font-size: 12px;
+  transition: all 0.2s;
+  cursor: pointer;
+  margin-top: 20px;
+  font-size: 16px;
+}
+.cart-page form .cart-info .form-details-buttons button:hover {
   background-color: #0ec1ae;
 }/*# sourceMappingURL=theme.css.map */

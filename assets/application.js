@@ -181,26 +181,6 @@ if (window.location.pathname === "/cart") {
 
     updateQuantity();
 
-    // try {
-    //   const newData = axios
-    //     .post(
-    //       window.location.pathname + `/update.js`,
-    //       `updates[${key}]=${quantity}`
-    //     )
-    //     .then(() => {
-    //       return axios.get(
-    //         window.location.pathname + `?sections=${sectionId},header`
-    //       );
-    //     });
-
-    //   newData.then((data) => {
-    //     updateCartPrices(data);
-    //     updateHeaderCartQuantity(data);
-    //   });
-    // } catch (error) {
-    //   console.log(error);
-    // }
-
     const updateCartPrices = (data) => {
       const html = new DOMParser().parseFromString(
         data[sectionId],

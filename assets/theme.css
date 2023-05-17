@@ -45,7 +45,8 @@ html {
 }
 .navbar.sticky {
   position: sticky;
-  background-color: #eaf1f6;
+  background-color: white;
+  border-bottom: 1px solid #e6e6e6;
   color: black;
   padding: 0 5%;
   max-width: 100%;
@@ -331,6 +332,7 @@ html {
 }
 
 .product-carousel {
+  position: relative;
   padding: 60px 0;
 }
 .product-carousel h3 {
@@ -360,21 +362,27 @@ html {
 }
 
 .carousel-body {
-  display: none;
+  display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 30px;
   margin: 0 auto;
   max-width: 80%;
   visibility: hidden;
   opacity: 0;
+  transition: transform 0.3s;
   transform: translateY(40px);
-  transition: all 0.3s;
+  transition: transform 0.3s ease-in-out;
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 .carousel-body.active {
-  display: grid;
   visibility: visible;
   opacity: 1;
   transform: translateY(0);
+  position: relative;
 }
 @media (max-width: 1100px) {
   .carousel-body {
@@ -391,11 +399,19 @@ html {
     grid-template-columns: 1fr 1fr;
   }
 }
-.carousel-body .product-card .product-card-inner {
+
+.product-card .product-card-inner {
   position: relative;
   overflow: hidden;
 }
-.carousel-body .product-card .product-card-inner .product-tag span {
+.product-card .product-card-inner .card-image img {
+  aspect-ratio: 1/1.2;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+}
+.product-card .product-card-inner .product-tag span {
   padding: 3px;
   background-color: red;
   color: white;
@@ -405,7 +421,7 @@ html {
   top: 10px;
   left: 10px;
 }
-.carousel-body .product-card .product-card-inner .variants-info {
+.product-card .product-card-inner .variants-info {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -419,11 +435,11 @@ html {
   visibility: hidden;
   opacity: 0;
 }
-.carousel-body .product-card .product-card-inner:hover .variants-info {
+.product-card .product-card-inner:hover .variants-info {
   visibility: visible;
   opacity: 1;
 }
-.carousel-body .product-card .product-card-info .name-wishlist {
+.product-card .product-card-info .name-wishlist {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -431,10 +447,10 @@ html {
   font-size: 14px;
   font-weight: 400;
 }
-.carousel-body .product-card .product-card-info .name-wishlist .name {
+.product-card .product-card-info .name-wishlist .name {
   color: #333;
 }
-.carousel-body .product-card .product-card-info .price {
+.product-card .product-card-info .price {
   color: #696969;
   font-size: 14px;
 }

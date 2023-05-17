@@ -124,7 +124,8 @@ html {
 
     &.sticky{
         position: sticky;
-        background-color: #eaf1f6;
+        background-color: white;
+        border-bottom: 1px solid $border-color;
         color: black;
         padding: 0 5%;
         max-width: 100%;
@@ -445,6 +446,7 @@ html {
   }
 
 .product-carousel{
+    position: relative;
     padding: 60px 0;
     h3{
         text-align: center;
@@ -476,22 +478,28 @@ html {
 }
 
 .carousel-body{
-    display: none;
+    display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 30px;
     margin: 0 auto;
     max-width: 80%;
     visibility: hidden;
     opacity: 0;
-    // transition: max-width 0.3s, visibility 0.3s opacity 0.3s;
+    transition: transform 0.3s;
     transform: translateY(40px);
-    transition: all 0.3s;
+    transition: transform 0.3s ease-in-out;
+    
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
 
     &.active{
-        display: grid;
         visibility: visible;
         opacity: 1;
         transform: translateY(0);
+        position: relative;
     }
 
     @include rwd(1100){
@@ -506,61 +514,69 @@ html {
         grid-template-columns: 1fr 1fr;
     }
 
-    .product-card{
-        .product-card-inner{
-            position: relative;
-            overflow: hidden;
-            
-            .product-tag span{
-                padding: 3px;
-                background-color: red;
-                color: white;
-                font-size: 11px;
-                position: absolute;
-                z-index: 2;
-                top: 10px;
-                left: 10px;
-            }
-            .variants-info{
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                background-color: rgba(255, 255, 255, 0.9);
-                padding: 20px;
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                transition: all 0.3s;
-                visibility: hidden;
-                opacity: 0;
-            }
-            &:hover{
-                .variants-info{
-                    visibility:visible;
-                    opacity: 1;
-                }
+}
+
+.product-card{
+    .product-card-inner{
+        position: relative;
+        overflow: hidden;
+
+        .card-image{
+            img{
+                aspect-ratio: 1/1.2;
+                object-fit: cover;
+                object-position: center;
             }
         }
-        .product-card-info{
-            .name-wishlist{
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 10px 0;
-                font-size: 14px;
-                font-weight: 400;
-                .name{
-                    color: $link-color;
-                }
-            }
-            .price{
-                color: $product-price-color;
-                font-size: 14px;
+        
+        .product-tag span{
+            padding: 3px;
+            background-color: red;
+            color: white;
+            font-size: 11px;
+            position: absolute;
+            z-index: 2;
+            top: 10px;
+            left: 10px;
+        }
+        .variants-info{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            transition: all 0.3s;
+            visibility: hidden;
+            opacity: 0;
+        }
+        &:hover{
+            .variants-info{
+                visibility:visible;
+                opacity: 1;
             }
         }
     }
-
+    .product-card-info{
+        .name-wishlist{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 14px;
+            font-weight: 400;
+            .name{
+                color: $link-color;
+            }
+        }
+        .price{
+            color: $product-price-color;
+            font-size: 14px;
+        }
+    }
 }
 
 .collections-slider{

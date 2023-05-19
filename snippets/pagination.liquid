@@ -1,0 +1,25 @@
+{% if pagination.pages > 0 %}
+  <nav class="pagination-nav-container" role="navigation">
+    {% if pagination.previous %}
+      <a href="{{ pagination.previous.url }}" class="previous pagination-nav-item">
+        <i class="fa fa-caret-left"></i>
+      </a>
+    {% endif %}
+    {% for part in pagination.parts %}
+      {% if part.is_link %}
+        <a
+          href="{{ part.url }}"
+          class="pagination-nav-item"
+          data-pagination-num="{{ forloop.index }}">{{
+   part.title }}</a>
+      {% else %}
+        <span class="pagination-nav-item active" data-paginationNum="{{ part.title }}">{{ part.title }}</span>
+      {% endif %}
+    {% endfor %}
+    {% if pagination.next %}
+      <a href="{{ pagination.next.url }}" class="next pagination-nav-item">
+        <i class="fa fa-caret-right"></i>
+      </a>
+    {% endif %}
+  </nav>
+{% endif %}

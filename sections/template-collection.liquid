@@ -1,0 +1,42 @@
+<div class="collection-page-container" data-section="{{ section.id }}">
+  <div class="collection-page-header">
+    <h1>{{ collection.title }}</h1>
+    <div class="page-location-container">
+      <span>
+        <a href="/">Home</a>
+      </span>
+      <span>
+        <i class="fa-solid fa-chevron-right"></i>
+      </span>
+      <span>{{ collection.title }}</span>
+    </div>
+    <div class="collections-nav-container">
+      {% for item in collections %}
+        <a href="{{ item.url  }}">
+          <span class="collections-nav-item{% if collection.url == item.url %} active{% endif %}">{{ item.title }}</span>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="collection-container">
+    {% paginate collection.products by 12 %}
+      <div class="collection-products">
+        {% for product in collection.products %}
+          {% render 'product-card' product: product %}
+        {% else %}
+          <p>no matches</p>
+        {% endfor %}
+      </div>
+      {% if paginate.pages > 1 %}
+        {% render 'pagination' pagination: paginate %}
+      {% endif %}
+    {% endpaginate %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "template-collection",
+    "settings": []
+  }
+{% endschema %}

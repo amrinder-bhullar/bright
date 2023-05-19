@@ -1214,4 +1214,75 @@ footer section ul li:hover, footer section ul li a:hover {
 }
 .cart-page form .cart-info .form-details-buttons button:hover {
   background-color: #0ec1ae;
+}
+
+.collection-page-container .collection-page-header {
+  background-image: url("https://cdn.shopify.com/s/files/1/0651/3157/7585/files/bn_shop.jpg?v=1660268785&width=1080");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top center;
+  padding: 60px 0;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.collection-page-container .collection-page-header h1 {
+  font-size: 36px;
+  font-weight: 400;
+}
+.collection-page-container .collection-page-header .page-location-container span a, .collection-page-container .collection-page-header .page-location-container span {
+  color: white;
+  font-size: 14px;
+}
+.collection-page-container .collection-page-header .page-location-container span i {
+  font-size: 10px;
+}
+.collection-page-container .collection-page-header .collections-nav-container {
+  margin-top: 40px;
+  display: flex;
+  gap: 30px;
+}
+.collection-page-container .collection-page-header .collections-nav-container .collections-nav-item {
+  color: white;
+  padding: 10px 0;
+}
+.collection-page-container .collection-page-header .collections-nav-container .collections-nav-item.active {
+  border-bottom: 2px solid white;
+}
+.collection-page-container .collection-container {
+  width: calc(100% - 30px);
+  margin: 50px auto;
+}
+.collection-page-container .collection-container .collection-products {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 20px;
+}
+@media (max-width: 768px) {
+  .collection-page-container .collection-container .collection-products {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+@media (max-width: 576px) {
+  .collection-page-container .collection-container .collection-products {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.pagination-nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 30px;
+}
+.pagination-nav-container .pagination-nav-item {
+  padding: 5px 15px;
+  border: 1px solid #e6e6e6;
+  color: #868686;
+}
+.pagination-nav-container .pagination-nav-item.active {
+  background-color: black;
+  color: white;
 }/*# sourceMappingURL=theme.css.map */

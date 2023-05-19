@@ -1,4 +1,4 @@
-<div class="blog-page">
+<div class="blog-page" data-section="{{ section.id }}">
   <h1 class="blog-title">{{ blog.title }}</h1>
   <div class="page-location-container">
     <span>
@@ -65,7 +65,7 @@
         {% endfor %}
 
         {% if paginate.pages > 1 %}
-          {{ paginate | default_pagination }}
+          {% render 'pagination' pagination: paginate %}
         {% endif %}
       {% endpaginate %}
     </div>
@@ -112,7 +112,7 @@
         "min": 1,
         "max": 6,
         "label": "Blog posts per page",
-        "default": 3
+        "default": 1
       }
     ]
   }

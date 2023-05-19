@@ -18,9 +18,10 @@
           {% for item in cart.items %}
             <tr>
               <td>
-                <a href="{{routes.cart_change_url}}?quantity=0&amp;{{ item.variant.id }}">
-                  <i class="fa-solid fa-x"></i>
+                <a href="{{routes.cart_change_url}}?quantity=0&amp;id={{ item.key }}">
+                  <i data-itemkey="{{ item.key }}" class="fa-solid fa-x remove-cart-line-item"></i>
                 </a>
+
               </td>
               <td class="cart-product-info">
                 <a href="{{ item.url | within: collections.all }}">
@@ -39,7 +40,8 @@
                 </div>
               </td>
               <td>{{ item.price | money }}</td>
-              <td>
+              <td class="cart-quantity">
+
                 <input
                   type="number"
                   class="cart-item-quantity"
@@ -54,6 +56,7 @@
                 {% if item.original_line_price != item.line_price %}
                   {{ item.original_line_price | money }}{% endif %}
                 {{ item.line_price | money }}
+                
                 {% for discount in item.discounts %}
                   {{ discount.title }}{% endfor %}
               </td>
@@ -80,6 +83,7 @@
         </div>
         <div class="form-details-buttons">
           <p class="cart-total">subtotal : {{ cart.total_price | money }}</p>
+          <a href="/cart/clear">Clear</a>
           <button class="cart-update" type="submit" name="update">Update</button>
           <button class="cart-checkout" type="submit" name="checkout">Checkout</button>
         </div>

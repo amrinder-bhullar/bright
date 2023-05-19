@@ -7,6 +7,7 @@ $product-price-color: #696969;
 $pri-cl: #868686;
 $text-color: #868686;
 $border-color: #e6e6e6;
+$black: black;
 
 // Small tablets and large smartphones (landscape view)
 $screen-sm-min: 576px;
@@ -1398,6 +1399,77 @@ footer{
                     }
                 }
             }
+        }
+    }
+}
+
+.collection-page-container{
+    .collection-page-header{
+        background-image: url("https://cdn.shopify.com/s/files/1/0651/3157/7585/files/bn_shop.jpg?v=1660268785&width=1080");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: top center;
+        padding: 60px 0;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        h1{
+            font-size: 36px;
+            font-weight: 400;
+        }
+        .page-location-container{
+            span a, span{
+                color: white;
+                font-size: 14px;
+            }
+            span i{
+                font-size: 10px;
+            }
+        }
+        .collections-nav-container{
+            margin-top: 40px;
+            display: flex;
+            gap: 30px;
+            .collections-nav-item{
+                color: white;
+                padding: 10px 0;
+                &.active{
+                    border-bottom: 2px solid white;
+                }
+            }
+        }
+    }
+    .collection-container{
+        width: calc(100% - 30px);
+        margin: 50px auto;
+        .collection-products{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 20px;
+            @include md{
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+            @include sm{
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    }
+}
+
+.pagination-nav-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 30px;
+    .pagination-nav-item{
+        padding: 5px 15px;
+        border: 1px solid $border-color;
+        color: $pri-cl;
+        &.active{
+            background-color: $black;
+            color: white;
         }
     }
 }

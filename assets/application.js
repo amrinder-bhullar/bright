@@ -2,6 +2,62 @@
 const menuItems = document.querySelectorAll(".has-submenu");
 const megaMenu = document.querySelectorAll(".mega-menu");
 
+// helper functions
+
+// helps you delegate event listners, instead to adding event listner to element it adds to the document itself and if the selector matches it runs the callback
+
+const addGlobalEventListener = (type, selector, callback) => {
+  document.addEventListener(type, (e) => {
+    if (e.target.matches(selector)) callback(e);
+  });
+};
+
+// sends the form data and adds to the cart can be called from anywhere, returns a promise and you can add .then from where you are calling it.
+
+const handleAddToCart = async (formData) => {
+  try {
+    return axios.post(
+      window.Shopify.routes.root + "cart/add.js/?sections=header",
+      formData
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// sends the requ
+
+const getPage = async (page, sectionId) => {
+  try {
+    return await axios.get(page + "&" + sectionId);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const sendUpdatedQuantity = (payload) => {
+  try {
+    return axios.post(window.Shopify.routes.root + `cart/change.js`, payload);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// update UI element pass the finaldata which will be converted to DomParser, accepts 2 params final data and selector to update
+
+const updateUIelement = (data, selector) => {
+  const htmlFromData = new DOMParser().parseFromString(data, "text/html");
+  const containerToUpdate = document.querySelector(selector);
+  const updatedData = htmlFromData.querySelector(selector);
+
+  if (containerToUpdate && updatedData) {
+    containerToUpdate.innerHTML = updatedData.innerHTML;
+    return true;
+  }
+};
+
+// end of helper functions
+
 menuItems.forEach((item, index) => {
   item.addEventListener("mouseover", (e) => {
     // megaMenu.forEach((item) => item.classList.remove("active"));
@@ -65,7 +121,7 @@ if (window.location.pathname === "/") {
   const timerDiv = document.querySelector(".timer");
 
   const timer = () => {
-    let endTime = new Date(2023, 11, 20, 0, 0);
+    let endTime = new Date(2023, 11, 20);
     let todayDate = new Date();
     let todayTime = todayDate.getTime();
     let remainingTime = endTime - todayTime;
@@ -155,66 +211,79 @@ if (window.location.pathname === "/") {
   }).mount();
 }
 
-if (window.location.pathname === "/cart") {
-  const QuantityInputs = document.querySelectorAll(".cart-item-quantity");
+/* cart page logic */
+
+const handleQuantityUpdate = async (key, quantity) => {
   const sectionId = document.querySelector(".cart-page").dataset.section;
-  const form = document.querySelector(".cart-total");
 
-  const handleQuantityUpdate = async (key, quantity) => {
-    const updateQuantity = () => {
-      try {
-        axios
-          .post(window.location.pathname + `/change.js`, {
-            id: key,
-            quantity: quantity,
-            sections: "header," + sectionId,
-          })
-          .then((data) => {
-            updateHeaderCartQuantity(data.data.sections);
-            updateCartPrices(data.data.sections);
-            console.log(data);
-          });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    updateQuantity();
-
-    const updateCartPrices = (data) => {
-      const html = new DOMParser().parseFromString(
-        data[sectionId],
-        "text/html"
-      );
-      const dataForm = html.querySelector(".cart-total");
-      const totalItemPrice = document.querySelectorAll(".total-item-price");
-      const dataTotalItemPrice = html.querySelectorAll(".total-item-price");
-      form.innerHTML = dataForm.innerHTML;
-
-      // console.log(dataTotalItemPrice, totalItemPrice);
-
-      dataTotalItemPrice.forEach((item, index) => {
-        totalItemPrice[index].innerHTML = dataTotalItemPrice[index].innerHTML;
-      });
-    };
-
-    const updateHeaderCartQuantity = (data) => {
-      const html = new DOMParser().parseFromString(data["header"], "text/html");
-
-      const dataCartQuantity = html.querySelector(".items-in-cart");
-      const cartQuantity = document.querySelector(".items-in-cart");
-
-      cartQuantity.innerHTML = dataCartQuantity.innerHTML;
-      console.log(dataCartQuantity.innerHTML, cartQuantity.innerHTML);
-    };
+  const payload = {
+    id: key,
+    quantity: quantity,
+    sections: "header," + sectionId,
   };
 
-  QuantityInputs.forEach((Qinput, index) => {
-    Qinput.addEventListener("change", (e) => {
-      let quantity = e.target.value;
-      let key = e.target.dataset.variant;
+  const sentData = sendUpdatedQuantity(payload);
 
-      handleQuantityUpdate(key, +quantity);
-    });
+  sentData.then((data) => {
+    updateUIelement(data.data.sections["header"], ".items-in-cart");
+    updateUIelement(data.data.sections[sectionId], ".cart-page");
   });
-}
+};
+
+addGlobalEventListener("change", ".cart-item-quantity", (e) => {
+  let quantity = e.target.value;
+  let key = e.target.dataset.variant;
+  handleQuantityUpdate(key, +quantity);
+});
+
+addGlobalEventListener("click", ".remove-cart-line-item", (e) => {
+  e.preventDefault();
+  let quantity = 0;
+  let key = e.target.dataset.itemkey;
+  handleQuantityUpdate(key, +quantity);
+});
+
+addGlobalEventListener("click", ".pagination-nav-item", (e) => {
+  e.preventDefault();
+  console.log(e.target.href);
+  handlePageLinkClick(e.target.href);
+});
+
+const handlePageLinkClick = (page) => {
+  const section = document.querySelector("[data-section]");
+  const sectionId = section.dataset.section;
+  const pageData = getPage(page, sectionId);
+
+  debugger;
+  pageData.then((data) => {
+    const updatePage = updateUIelement(data.data, "." + section.className);
+
+    if (updatePage) {
+      window.scrollTo(0, 0);
+      window.history.replaceState({}, "", `${page}`);
+    }
+  });
+};
+
+const handleAddToCartProductCard = (variantID) => {
+  let formData = {
+    items: [
+      {
+        id: variantID,
+        quantity: 1,
+      },
+    ],
+  };
+
+  handleAddToCart(formData).then((response) => {
+    updateUIelement(response.data.sections["header"], ".items-in-cart");
+  });
+  // .then((data) => console.log(data));
+};
+
+// adds eventlistener to wishlist btn at the moment it is adding the product to cart on collections page.
+
+addGlobalEventListener("click", ".product-card-wishlist-btn", (e) => {
+  let variantID = e.target.parentNode.dataset.variantid;
+  handleAddToCartProductCard(variantID);
+});

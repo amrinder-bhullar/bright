@@ -9,7 +9,11 @@
       </div>
       <span>Adjustable Bowline Necklace</span>
       <span class="price">$86.00</span>
-      <div class="timer"></div>
+      <div
+        class="timer"
+        data-day="{{ section.settings.day }}"
+        data-month="{{section.settings.month}}"
+        data-year="{{ section.settings.year }}"></div>
       <div>
         <button>View full details</button>
       </div>
@@ -25,6 +29,27 @@
         "type": "product",
         "id": "product1_url",
         "label": "Pick the product one for buy now button"
+      }, {
+        "type": "range",
+        "id": "day",
+        "default": 20,
+        "label": "pick the day sale starts",
+        "min": 1,
+        "max": 31
+      }, {
+        "type": "range",
+        "id": "month",
+        "default": 12,
+        "label": "add the month",
+        "min": 1,
+        "max": 12
+      }, {
+        "type": "range",
+        "id": "year",
+        "default": 2023,
+        "label": "add the year",
+        "min": 2023,
+        "max": 2030
       }
     ],
     "presets": [

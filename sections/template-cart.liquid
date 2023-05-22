@@ -33,15 +33,29 @@
                 <div class="cart-product-name">
                   <a href="{{ item.url }}">{{ item.title }}</a>
                   <br>
-                  {% if item.product.has_only_default_variant %}
-                    {% else %}
-                      {{ item.variant.title }}
+                  {% unless item.product.has_only_default_variant %}
+                  {{ item.variant.title }}
+                  {% endunless %}
+                  {% if item.product.available == false %}
+                      <span>out of stock</span>
                   {% endif %}
                 </div>
               </td>
               <td>{{ item.price | money }}</td>
               <td class="cart-quantity">
-
+                {% if item.product.available == false %}
+                <input
+                  type="number"
+                  class="cart-item-quantity"
+                  name="updates[]"
+                  id="{{ item.key }}"
+                  value="0"
+                  data-key="{{ item.key }}"
+                  data-variant="{{ item.variant_id }}"
+                  min="0"
+                  disabled
+                  >
+                  {% else %}
                 <input
                   type="number"
                   class="cart-item-quantity"
@@ -51,6 +65,7 @@
                   data-key="{{ item.key }}"
                   data-variant="{{ item.variant_id }}"
                   min="0">
+                {% endif %}
               </td>
               <td class="total-item-price">
                 {% if item.original_line_price != item.line_price %}

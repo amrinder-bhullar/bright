@@ -287,3 +287,18 @@ addGlobalEventListener("click", ".product-card-wishlist-btn", (e) => {
   let variantID = e.target.parentNode.dataset.variantid;
   handleAddToCartProductCard(variantID);
 });
+
+// product page
+
+// new Splide(".splide.product-images-nav-slider", {
+//   // rewind: true,
+//   pagination: false,
+//   perPage: 4,
+// }).mount();
+
+// new Splide(".splide.product-main-image-slider", {
+//   // rewind: true,
+//   type: "loop",
+//   pagination: false,
+//   perPage: 1,
+// }).mount();

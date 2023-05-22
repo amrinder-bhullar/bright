@@ -1252,6 +1252,7 @@ footer section ul li:hover, footer section ul li a:hover {
 }
 .collection-page-container .collection-container {
   width: calc(100% - 30px);
+  max-width: 1400px;
   margin: 50px auto;
 }
 .collection-page-container .collection-container .collection-products {
@@ -1278,11 +1279,13 @@ footer section ul li:hover, footer section ul li a:hover {
   margin-top: 30px;
 }
 .pagination-nav-container .pagination-nav-item {
+  cursor: pointer;
   padding: 5px 15px;
   border: 1px solid #e6e6e6;
   color: #868686;
 }
 .pagination-nav-container .pagination-nav-item.active {
+  cursor: default;
   background-color: black;
   color: white;
 }/*# sourceMappingURL=theme.css.map */

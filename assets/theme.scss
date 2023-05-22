@@ -1442,6 +1442,7 @@ footer{
     }
     .collection-container{
         width: calc(100% - 30px);
+        max-width: 1400px;
         margin: 50px auto;
         .collection-products{
             display: grid;
@@ -1464,10 +1465,12 @@ footer{
     gap: 10px;
     margin-top: 30px;
     .pagination-nav-item{
+        cursor: pointer;
         padding: 5px 15px;
         border: 1px solid $border-color;
         color: $pri-cl;
         &.active{
+            cursor: default;
             background-color: $black;
             color: white;
         }

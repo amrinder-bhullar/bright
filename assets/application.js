@@ -302,3 +302,61 @@ addGlobalEventListener("click", ".product-card-wishlist-btn", (e) => {
 //   pagination: false,
 //   perPage: 1,
 // }).mount();
+
+document.addEventListener("DOMContentLoaded", function () {
+  addGlobalEventListener("click", ".option-value", (e) => {
+    const variantValues = [];
+    variantValues.push(e.target.dataset.value);
+    const optionType = e.target.dataset.swatchType;
+    const allVariants = document.querySelectorAll(".option-value.is_selected");
+
+    allVariants.forEach((variant) => {
+      if (variant.dataset.swatchType !== optionType) {
+        variantValues.push(variant.dataset.value);
+      }
+    });
+
+    const newVariantValues = variantValues.sort();
+
+    console.log(newVariantValues);
+
+    const variantData = JSON.parse(
+      document
+        .querySelector(".prod-variants")
+        .querySelector('[type="application/json"]').textContent
+    );
+
+    const currentVariant = variantData.find((variant, index) => {
+      const findings = !variant.options;
+      // .sort()
+      // .map((option, index) => {
+      //   return newVariantValues[index] === option;
+      // })
+      // .includes(false);
+      // if (findings) return variant;
+
+      const results = newVariantValues.filter((option) => {
+        variant.options.includes(option);
+      });
+
+      console.log(results);
+    });
+
+    // console.log(findings);
+
+    console.log(currentVariant);
+  });
+
+  const selectedVariants = () => {};
+
+  const getVariantJSON = () => {
+    const variantData = JSON.parse(
+      document
+        .querySelector(".prod-variants")
+        .querySelector('[type="application/json"]').textContent
+    );
+    return variantData;
+  };
+
+  const getSelectedVariant = () => {};
+});

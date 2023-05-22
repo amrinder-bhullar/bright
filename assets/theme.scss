@@ -1476,3 +1476,17 @@ footer{
         }
     }
 }
+
+.product-page{
+    .product-section{
+        display: flex;
+        max-width: 100%;
+        .product-medias{
+            width: 50%;
+            height: 100%;
+        }
+        .product-info{
+            flex: 0 0 50%;
+        }
+    }
+}

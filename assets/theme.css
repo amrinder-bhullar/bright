@@ -1288,4 +1288,16 @@ footer section ul li:hover, footer section ul li a:hover {
   cursor: default;
   background-color: black;
   color: white;
+}
+
+.product-page .product-section {
+  display: flex;
+  max-width: 100%;
+}
+.product-page .product-section .product-medias {
+  width: 50%;
+  height: 100%;
+}
+.product-page .product-section .product-info {
+  flex: 0 0 50%;
 }/*# sourceMappingURL=theme.css.map */

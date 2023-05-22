@@ -1,166 +1,239 @@
 {% comment %} {% assign current_variant = product.selected_or_first_available_variant %}
-{% assign featured_image = current_variant.featured_image | default: product.featured_image %}
-<img src="{{ featured_image | img_url: 'large' }}" alt="{{ featured_image.alt | escape }}" id="ProductPhotoImg">
-{% for image in product.images %}
+  {% assign featured_image = current_variant.featured_image | default: product.featured_image %}
+  <img src="{{ featured_image | img_url: 'large' }}" alt="{{ featured_image.alt | escape }}" id="ProductPhotoImg">
+  {% for image in product.images %}
   <a href="{{ image.src | img_url: 'large' }}">
-    <img src="{{ image.src | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
+  <img src="{{ image.src | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
   </a>
-{% endfor %}
-<h1>{{ product.title }}</h1>
-<form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm">
+  {% endfor %}
+  <h1>{{ product.title }}</h1>
+  <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm">
   <select name="id" id="productSelect">
-    {% for variant in product.variants %}
-      {% if variant.available %}
-        <option value="{{ variant.id }}">
-          {{ variant.title }} - {{ variant.price | money_with_currency }}
-        </option>
-      {% else %}
-        <option disabled="disabled">
-          {{ variant.title }} - sold out
-        </option>
-      {% endif %}
-    {% endfor %}
+  {% for variant in product.variants %}
+  {% if variant.available %}
+  <option value="{{ variant.id }}">
+  {{ variant.title }} - {{ variant.price | money_with_currency }}
+  </option>
+  {% else %}
+  <option disabled="disabled">
+  {{ variant.title }} - sold out
+  </option>
+  {% endif %}
+  {% endfor %}
   </select>
   {{ current_variant.price | money }}
   <label for="Quantity">quantity</label>
   <input type="number" id="Quantity" name="quantity" value="1" min="1">
   <button type="submit" name="add" id="AddToCart">Add to cart</button>
-</form>
+  </form>
 <div>{{ product.description }}</div> {% endcomment %}
 
+{% assign selected_variant = product.selected_or_first_available_variant %}
+
+
 <div class="product-page" data-section="{{ section.id }}">
-    <div class="page-breadcrumbs">
-        <div class="breadcrumbs">
-            <span><a href="/">Home</a></span>
-            <span><i class="fa-solid fa-chevron-right"></i></span>
-            <span>{{ product.title }}</span>
-        </div>
-        <div class="product-navigation">
-            <span><i class="fa-solid fa-chevron-left"></i></span>
-            <span><i class="fa-solid fa-block"></i></span>
-            <span><i class="fa-solid fa-chevron-right"></i></span>
-        </div>
+  <div class="page-breadcrumbs">
+    <div class="breadcrumbs">
+      <span>
+        <a href="/">Home</a>
+      </span>
+      <span>
+        <i class="fa-solid fa-chevron-right"></i>
+      </span>
+      <span>{{ product.title }}</span>
     </div>
-    <div class="product-section">
-        <div class="product-medias">
-            <div class="product-images-nav">
-                <section class="splide product-images-nav-slider">
-  <div class="splide__track">
-    <div class="splide__list">
-        {% for image in product.images %}
-            <div class="splide__slide">
-                <img
-                src="{{ image.src | img_url: 'large' }}"
-                loading="lazy"
-                alt="">
-            </div>
-        {% endfor %}
-
+    <div class="product-navigation">
+      <span>
+        <i class="fa-solid fa-chevron-left"></i>
+      </span>
+      <span>
+        <i class="fa-solid fa-block"></i>
+      </span>
+      <span>
+        <i class="fa-solid fa-chevron-right"></i>
+      </span>
     </div>
   </div>
-</section>
-            </div>
-            <div class="product-main-image">
-                <section class="splide product-main-image-slider">
-                <div class="splide__track">
-                    <div class="splide__list">
-                        {% for image in product.images %}
-                        <div class="splide__slide">
-                            <img
-                            src="{{ image.src | img_url: 'large' }}"
-                            loading="lazy"
-                            alt="">
-                        </div>
-        {% endfor %}
+  <div class="product-section">
+    {% if product.images.size > 1 %}
+      <div class="product-medias">
+        <div class="product-main-image">
+          <section class="splide product-main-image-slider">
+            <div class="splide__track">
+              <div class="splide__list">
+                {% for image in product.images %}
+                  <div class="splide__slide">
+                    <img
+                      src="{{ image.src | img_url: 'large' }}"
+                      loading="lazy"
+                      alt="">
+                  </div>
+                {% endfor %}
 
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="product-images-nav">
+          <section class="splide product-images-nav-slider">
+            <div class="splide__track">
+              <div class="splide__list">
+                {% for image in product.images %}
+                  <div class="splide__slide">
+                    <img
+                      src="{{ image.src | img_url: 'large' }}"
+                      loading="lazy"
+                      alt="">
+                  </div>
+                {% endfor %}
+
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    {% else %}
+      <div class="product-medias">
+        <div class="product-main-image">
+          <img
+            src="{{ product.featured_image | img_url: 'large' }}"
+            loading="lazy"
+            alt="">
+        </div>
+      </div>
+    {% endif %}
+    <div class="product-info">
+      {% form 'product', product, id: 'product-form', novalidate: 'novalidate' %}
+        <input
+          type="hidden"
+          name="id"
+          value="{{ selected_variant.id }}">
+        <h1 class="prod-title">{{ product.title }}</h1>
+        <span class="prod-price">{{ selected_variant.price | money }}</span>
+        <div>
+          selected: {{ selected_variant.title }}</div>
+        <p class="prod-desc">{{ product.description | truncatewords: 15 }}</p>
+        <div class="prod-variants">
+          {% for option in product.options_with_values %}
+            <div class="prod-option">
+              <div class="option-title">{{ option.name | escape }} : {{ option.selected_value }}</div>
+              {% for value in option.values %}
+                <span
+                  data-swatch-type="{{option.name}}"
+                  class="option-value{% if option.selected_value == value %} is_selected active {% endif %}"
+                  data-value="{{ value }}">{{ value }}</span>
+              {% endfor %}
+            </div>
+          {% endfor %}
+          <div>
+            <label for="Quantity-{{section.id}}">Quantity</label>
+            <input
+              type="number"
+              name="quantity"
+              min="1"
+              id="Quantity-{{section.id}}"
+              value="1">
+          </div>
+          <button
+            type="submit"
+            name="add"
+            class="checkout-button"
+            {% if selected_variant.available == false %}
+            disabled
+            {% endif %}>
+            {% if
+ selected_variant.available == false %}
+              Soldout
+            {% else %}
+              Add to Cart
+            {% endif %}
+          </button>
+          <script type="application/json">
+            {{ product.variants | json }}
+          </script>
+        </div>
+      {% endform %}
     </div>
   </div>
-</section>
-            </div>
-        </div>
-        <div class="product-info"></div>
-    </div>
 </div>
 
 <script>
-    document.addEventListener( 'DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', function() {
     let thumbnails = new Splide(".splide.product-images-nav-slider", {
-        fixedWidth  : 100,
-        fixedHeight : 60,
-        gap         : 10,
-        rewind      : true,
-        pagination  : false,
-        isNavigation: true,
-        breakpoints : {
-          600: {
-            fixedWidth : 60,
-            fixedHeight: 44,
-          },
-        },
-  });
+      fixedWidth: 100,
+      fixedHeight: 60,
+      gap: 10,
+      rewind: true,
+      pagination: false,
+      isNavigation: true,
+      breakpoints: {
+        600: {
+          fixedWidth: 60,
+          fixedHeight: 44
+        }
+      }
+    });
 
-   let main = new Splide(".splide.product-main-image-slider", {
-    // rewind: true,
-    type: "loop",
-    pagination: false,
-    perPage: 1,
-  });
+    let main = new Splide(".splide.product-main-image-slider", { // rewind: true,
+      type: "loop",
+      pagination: false,
+      perPage: 1
+    });
 
-  main.sync( thumbnails );
-  main.mount();
-  thumbnails.mount();
+    main.sync(thumbnails);
+    main.mount();
+    thumbnails.mount();
   });
-
 </script>
 
 {% schema %}
-    {
-      "name": "Product",
-      "blocks": [
-        {
-          "type": "vendor",
-          "name": "Vendor",
-          "limit": 1
-        },
-        {
-          "type": "title",
-          "name": "Title",
-          "limit": 1
-        },
-        {
-          "type": "price",
-          "name": "Price",
-          "limit": 1
-        },
-        {
-          "type": "variant_selector",
-          "name": "Variant Selector",
-          "limit": 1
-        }, {
-          "type": "quantity",
-          "name": "Quantity",
-          "limit": 1
-        }, {
-          "type": "description",
-          "name": "Description",
-          "limit": 1
-        }, {
-          "type": "checkout_button",
-          "name": "Checkout Button",
-          "limit": 1
-        }
-      ],
-      "settings": [
-        {
-          "type": "textarea",
-          "id": "thirdTabContent",
-          "label": "third tab"
-        }
-      ],
-      "presets": [
-        {
-          "name": "product-template"
-        }
-      ]
-    }
-    {% endschema %}
+  {
+    "name": "Product",
+    "blocks": [
+      {
+        "type": "vendor",
+        "name": "Vendor",
+        "limit": 1
+      },
+      {
+        "type": "title",
+        "name": "Title",
+        "limit": 1
+      },
+      {
+        "type": "price",
+        "name": "Price",
+        "limit": 1
+      },
+      {
+        "type": "variant_selector",
+        "name": "Variant Selector",
+        "limit": 1
+      }, {
+        "type": "quantity",
+        "name": "Quantity",
+        "limit": 1
+      }, {
+        "type": "description",
+        "name": "Description",
+        "limit": 1
+      }, {
+        "type": "checkout_button",
+        "name": "Checkout Button",
+        "limit": 1
+      }
+    ],
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "thirdTabContent",
+        "label": "third tab"
+      }
+    ],
+    "presets": [
+      {
+        "name": "product-template"
+      }
+    ]
+  }
+{% endschema %}

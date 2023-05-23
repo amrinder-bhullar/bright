@@ -318,7 +318,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const newVariantValues = variantValues.sort();
 
-    console.log(newVariantValues);
+    // console.log(newVariantValues);
 
     const variantData = JSON.parse(
       document
@@ -327,24 +327,41 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
     const currentVariant = variantData.find((variant, index) => {
-      const findings = !variant.options;
-      // .sort()
-      // .map((option, index) => {
-      //   return newVariantValues[index] === option;
-      // })
-      // .includes(false);
-      // if (findings) return variant;
-
-      const results = newVariantValues.filter((option) => {
-        variant.options.includes(option);
-      });
-
-      console.log(results);
+      const findings = !variant.options
+        .sort()
+        .map((option, index) => {
+          return newVariantValues[index] === option;
+        })
+        .includes(false);
+      if (findings) return variant;
     });
 
-    // console.log(findings);
+    const productUrl = document.querySelector(".prod-variants");
+    const updateURL = () => {
+      if (!currentVariant) return;
+      window.history.replaceState(
+        {},
+        "",
+        `${productUrl.dataset.url}?variant=${currentVariant.id}`
+      );
+    };
 
-    console.log(currentVariant);
+    const updateUI = () => {
+      const sectionID = document.querySelector(".product-page");
+      const getData = getPage(
+        `${productUrl.dataset.url}?variant=${currentVariant.id}`,
+        sectionID.dataset.section
+      );
+
+      getData.then((data) => {
+        updateUIelement(data.data, ".product-info");
+      });
+    };
+
+    if (currentVariant) {
+      updateURL();
+      updateUI();
+    }
   });
 
   const selectedVariants = () => {};

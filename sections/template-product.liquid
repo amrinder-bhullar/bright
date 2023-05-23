@@ -113,7 +113,7 @@
         <div>
           selected: {{ selected_variant.title }}</div>
         <p class="prod-desc">{{ product.description | truncatewords: 15 }}</p>
-        <div class="prod-variants">
+        <div class="prod-variants" data-url="{{ product.url }}">
           {% for option in product.options_with_values %}
             <div class="prod-option">
               <div class="option-title">{{ option.name | escape }} : {{ option.selected_value }}</div>

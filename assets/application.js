@@ -254,7 +254,6 @@ const handlePageLinkClick = (page) => {
   const sectionId = section.dataset.section;
   const pageData = getPage(page, sectionId);
 
-  debugger;
   pageData.then((data) => {
     const updatePage = updateUIelement(data.data, "." + section.className);
 
@@ -290,18 +289,36 @@ addGlobalEventListener("click", ".product-card-wishlist-btn", (e) => {
 
 // product page
 
-// new Splide(".splide.product-images-nav-slider", {
-//   // rewind: true,
-//   pagination: false,
-//   perPage: 4,
-// }).mount();
+if (document.querySelector(".splide.product-images-nav-slider")) {
+  let productThumbnailsSlider = new Splide(
+    ".splide.product-images-nav-slider",
+    {
+      fixedWidth: 100,
+      fixedHeight: 60,
+      gap: 10,
+      rewind: true,
+      pagination: false,
+      isNavigation: true,
+      breakpoints: {
+        600: {
+          fixedWidth: 60,
+          fixedHeight: 44,
+        },
+      },
+    }
+  );
 
-// new Splide(".splide.product-main-image-slider", {
-//   // rewind: true,
-//   type: "loop",
-//   pagination: false,
-//   perPage: 1,
-// }).mount();
+  var productMainSlider = new Splide(".splide.product-main-image-slider", {
+    // rewind: true,
+    type: "loop",
+    pagination: false,
+    perPage: 1,
+  });
+
+  productMainSlider.sync(productThumbnailsSlider);
+  productMainSlider.mount();
+  productThumbnailsSlider.mount();
+}
 
 document.addEventListener("DOMContentLoaded", function () {
   addGlobalEventListener("click", ".option-value", (e) => {
@@ -348,14 +365,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const updateUI = () => {
       const sectionID = document.querySelector(".product-page");
+
       const getData = getPage(
         `${productUrl.dataset.url}?variant=${currentVariant.id}`,
         sectionID.dataset.section
       );
 
-      getData.then((data) => {
-        updateUIelement(data.data, ".product-info");
-      });
+      getData
+        .then((data) => {
+          updateUIelement(data.data, "input[name='id']");
+          updateUIelement(data.data, ".prod-price");
+          updateUIelement(data.data, ".prod-variants");
+          return true;
+        })
+        .then((confirm) => {
+          if (!confirm) return;
+          //once UI is updated it will have a new active class on the selected variant, get that slide
+          const activeColorVariant = document.querySelector(
+            '[data-swatch-type="Color"].active'
+          );
+
+          // get the dataset slide and add + infront to convert it to number by default it's a string, pass it to splideJS inbuilt method, sliderName.go(number of slide)
+          productMainSlider.go(+activeColorVariant.dataset.slide);
+        });
     };
 
     if (currentVariant) {
@@ -376,4 +408,54 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   const getSelectedVariant = () => {};
+});
+
+addGlobalEventListener(
+  "click",
+  ".add-to-cart-button, .add-to-cart-button *",
+  (e) => {
+    e.preventDefault();
+    const addToCartButtonSpinner = document.querySelector(".lds-dual-ring");
+    const addToCartButton = document.querySelector(".add-to-cart-button");
+
+    let addToCartForm = document.querySelector('form[action$="/cart/add"]');
+    let formData = new FormData(addToCartForm);
+
+    addToCartButtonSpinner.classList.add("active");
+    addToCartButton.classList.add("waiting");
+
+    handleAddToCart(formData).then((data) => {
+      updateUIelement(data.data.sections.header, ".items-in-cart");
+      addToCartButtonSpinner.classList.remove("active");
+      addToCartButton.classList.remove("waiting");
+    });
+  }
+);
+
+const tabs = document.querySelectorAll(".tab-btn");
+const tabsContent = document.querySelectorAll(".tab-content");
+
+tabs.forEach((tab, index) => {
+  tab.addEventListener("click", (e) => {
+    tabs.forEach((tab) => tab.classList.remove("active"));
+    tab.classList.add("active");
+
+    tabsContent.forEach((tabContent) => tabContent.classList.remove("active"));
+
+    tabsContent[index].classList.add("active");
+  });
+});
+
+addGlobalEventListener("click", ".quantity-selector", (e) => {
+  e.preventDefault();
+  const quantityInput = document.querySelector(".prod-quantity-input");
+
+  if (e.target.matches(".is--plus")) {
+    quantityInput.value = +quantityInput.value + 1;
+  } else if (e.target.matches(".is--minus")) {
+    if (quantityInput.value <= 1) {
+    } else {
+      quantityInput.value = +quantityInput.value - 1;
+    }
+  }
 });

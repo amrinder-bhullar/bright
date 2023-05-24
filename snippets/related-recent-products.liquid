@@ -1,0 +1,37 @@
+<section class="product-carousel">
+  <div class="carousel-nav">
+    <div class="carousel-nav-button">
+      <span class="active">Related products</span>
+    </div>
+    <div class="carousel-nav-button">
+      <span>Recently viewed</span>
+    </div>
+  </div>
+  <div class="carousel-container">
+    <div class="carousel-body active">
+      {% for product in collections['women'].products limit: 4 %}
+        {% include 'product-card' product: product %}
+      {% endfor %}
+    </div>
+    <div class="carousel-body">
+      {% for product in collections['men'].products limit: 4 %}
+        {% include 'product-card' product: product %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<script>
+  const carouselNavButtons = document.querySelectorAll(".carousel-nav-button span");
+
+  const carouselBodys = document.querySelectorAll(".carousel-body");
+
+  carouselNavButtons.forEach((button, index) => {
+    button.addEventListener("click", () => {
+      carouselNavButtons.forEach((button) => button.classList.remove("active"));
+      button.classList.add("active");
+      carouselBodys.forEach((carousel) => carousel.classList.remove("active"));
+      carouselBodys[index].classList.add("active");
+    });
+  });
+</script>

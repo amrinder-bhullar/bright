@@ -56,6 +56,17 @@ const updateUIelement = (data, selector) => {
   }
 };
 
+const updateSelectedVariantID = (data, selector) => {
+  const htmlFromData = new DOMParser().parseFromString(data, "text/html");
+  const valueToUpdate = document.querySelector(selector);
+  const updatedData = htmlFromData.querySelector(selector).value;
+
+  if (valueToUpdate && updatedData) {
+    valueToUpdate.value = updatedData;
+    return true;
+  }
+};
+
 // end of helper functions
 
 menuItems.forEach((item, index) => {
@@ -373,7 +384,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       getData
         .then((data) => {
-          updateUIelement(data.data, "input[name='id']");
+          updateSelectedVariantID(data.data, "input[name='id']");
           updateUIelement(data.data, ".prod-price");
           updateUIelement(data.data, ".prod-variants");
           return true;

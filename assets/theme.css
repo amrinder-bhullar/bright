@@ -1416,6 +1416,7 @@ footer section ul li:hover, footer section ul li a:hover {
   height: 100%;
   width: 100%;
   min-width: 140px;
+  max-width: 300px;
   transition: all 0.2s;
   cursor: pointer;
 }
@@ -1467,6 +1468,44 @@ footer section ul li:hover, footer section ul li a:hover {
   100% {
     transform: rotate(360deg);
   }
+}
+.product-page .product-section .product-info .wis_cp_container {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 40px;
+}
+.product-page .product-section .product-info .wis_cp_container .wis-button-container, .product-page .product-section .product-info .wis_cp_container .cp-button-container {
+  display: flex;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.product-page .product-section .product-info .wis_cp_container .wis-button-container:hover, .product-page .product-section .product-info .wis_cp_container .cp-button-container:hover {
+  color: #0ec1ae;
+}
+.product-page .product-section .product-info .wis_cp_container .wis-button-container:hover .wis-button-icon, .product-page .product-section .product-info .wis_cp_container .wis-button-container:hover .cp-button-icon, .product-page .product-section .product-info .wis_cp_container .cp-button-container:hover .wis-button-icon, .product-page .product-section .product-info .wis_cp_container .cp-button-container:hover .cp-button-icon {
+  border-color: #0ec1ae;
+}
+.product-page .product-section .product-info .wis_cp_container .wis-button-container .wis-button-icon, .product-page .product-section .product-info .wis_cp_container .wis-button-container .cp-button-icon, .product-page .product-section .product-info .wis_cp_container .cp-button-container .wis-button-icon, .product-page .product-section .product-info .wis_cp_container .cp-button-container .cp-button-icon {
+  height: 40px;
+  width: 40px;
+  border: 1px solid black;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.product-page .product-section .product-info .wis_cp_container .wis-button-container .wis-button-icon svg, .product-page .product-section .product-info .wis_cp_container .wis-button-container .cp-button-icon svg, .product-page .product-section .product-info .wis_cp_container .cp-button-container .wis-button-icon svg, .product-page .product-section .product-info .wis_cp_container .cp-button-container .cp-button-icon svg {
+  width: 15px;
+  height: 13px;
+  fill: none;
+  pointer-events: none;
 }
 
 .tabs {

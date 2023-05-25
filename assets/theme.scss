@@ -1606,6 +1606,7 @@ footer{
                         height: 100%;
                         width: 100%;
                         min-width: 140px;
+                        max-width: 300px;
                         transition: all 0.2s;
                         cursor: pointer;
 
@@ -1665,6 +1666,44 @@ footer{
                           }
                     }
                 
+            }
+
+            .wis_cp_container{
+                margin-top: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: start;
+                gap: 40px;
+                .wis-button-container, .cp-button-container{
+                    display: flex;
+                    column-gap: 10px;
+                    align-items: center;
+                    font-size: 14px;
+                    font-weight: 500;
+                    transition: all 0.2s;
+                    &:hover{
+                        color: $primary-hover-color;
+                        .wis-button-icon, .cp-button-icon{
+                            border-color: $primary-hover-color;
+                        }
+                    }
+                    .wis-button-icon, .cp-button-icon{
+                        height: 40px;
+                        width: 40px;
+                        border: 1px solid black;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        transition: all 0.2s;
+                        svg{
+                            width: 15px;
+                            height: 13px;
+                            fill: none;
+                            pointer-events: none;
+                        }
+                    }
+                }
             }
         }
     }

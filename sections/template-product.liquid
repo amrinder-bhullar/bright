@@ -164,19 +164,20 @@
         </a>
       </div>
       {% comment %} Popups {% endcomment %}
-      <div class="product-info-popups container">
+      <div class="product-info-popups-container">
         <a href="{{ product.url }}">Delivery & Return</a>
         <a href="{{ product.url }}">Ask a question</a>
       </div>
       <div class="product-tags">
-        <span>Categories:
+        <span class="product-tags-title">Categories:
         </span>
         {% for tag in product.tags %}
-          <span>{{ tag }}
-          </span>
+          <a href="{{ tag.url }}">{{ tag }}
+          </a>
         {% endfor %}
       </div>
-      <div class="social-share">
+      <div class="prod-social-share">
+        <div class="social-share-title">Share:</div>
         {% render 'socials' %}
       </div>
     </div>

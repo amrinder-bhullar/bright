@@ -17,7 +17,7 @@ const addGlobalEventListener = (type, selector, callback) => {
 const handleAddToCart = async (formData) => {
   try {
     return axios.post(
-      window.Shopify.routes.root + "cart/add.js/?sections=header",
+      window.Shopify.routes.root + "cart/add.js/?sections=header,cart-mini",
       formData
     );
   } catch (error) {
@@ -25,7 +25,7 @@ const handleAddToCart = async (formData) => {
   }
 };
 
-// sends the requ
+// sends the get request to get a new page and return a promise
 
 const getPage = async (page, sectionId) => {
   try {
@@ -34,6 +34,8 @@ const getPage = async (page, sectionId) => {
     console.log(error);
   }
 };
+
+// accepts payload in order to post request to change.js and returns a promise
 
 const sendUpdatedQuantity = (payload) => {
   try {
@@ -56,6 +58,8 @@ const updateUIelement = (data, selector) => {
   }
 };
 
+// updates value of hidden input value in form selected_variant
+
 const updateSelectedVariantID = (data, selector) => {
   const htmlFromData = new DOMParser().parseFromString(data, "text/html");
   const valueToUpdate = document.querySelector(selector);
@@ -67,23 +71,72 @@ const updateSelectedVariantID = (data, selector) => {
   }
 };
 
+// Function to show any passed element
+
+const showElement = (
+  selectorOfElementToShow,
+  buttonSelector,
+  enableOverlay = false,
+  classToAdd = "active"
+) => {
+  if (
+    selectorOfElementToShow === ".cart-drawer" &&
+    window.location.pathname === "/cart"
+  )
+    return;
+  const classAdded = addGlobalEventListener(
+    "click",
+    `${buttonSelector}, ${buttonSelector} *`,
+    (e) => {
+      e.preventDefault();
+      document.querySelector(selectorOfElementToShow).classList.add(classToAdd);
+      enableOverlay &&
+        document.querySelector(".background-overlay").classList.add("active");
+      return true;
+    }
+  );
+
+  if (classAdded) return true;
+};
+
+const hideElement = (
+  selectorOfElementToShow,
+  buttonSelector,
+  classToRemove = "active"
+) => {
+  if (!selectorOfElementToShow || !buttonSelector) throw error;
+  const classRemoved = addGlobalEventListener(
+    "click",
+    `${buttonSelector}, ${buttonSelector} *`,
+    (e) => {
+      e.preventDefault();
+      document
+        .querySelector(selectorOfElementToShow)
+        .classList.remove(classToRemove);
+      if (
+        document
+          .querySelector(".background-overlay")
+          .classList.contains("active")
+      ) {
+        document
+          .querySelector(".background-overlay")
+          .classList.remove("active");
+      }
+      return true;
+    }
+  );
+
+  if (classRemoved) return true;
+};
+
 // end of helper functions
 
 menuItems.forEach((item, index) => {
   item.addEventListener("mouseover", (e) => {
-    // megaMenu.forEach((item) => item.classList.remove("active"));
     megaMenu[index].classList.add("active");
-
-    if (megaMenu[index].getElementsByClassName("childlinks-with-children")[0]) {
-      megaMenu[index].classList.add("mega");
-    }
   });
   item.addEventListener("mouseleave", (e) => {
-    // megaMenu.forEach((item) => item.classList.remove("active"));
     megaMenu[index].classList.remove("active");
-    if (megaMenu[index].classList.contains("mega")) {
-      megaMenu[index].classList.remove("mega");
-    }
   });
 });
 
@@ -96,23 +149,14 @@ megaMenu.forEach((item) => {
   });
 });
 
-// console.log(menuItems);
+// Mobile Menu
 
-// mobile menu drawer
-const mobileMenuButton = document.querySelector(".mobile-menu-icon");
-const mobileMenuDrawer = document.querySelector(".mobile-menu-drawer");
-const mobileMenuClose = document.querySelector(".mobile-menu-close");
+showElement(".mobile-menu-drawer", ".mobile-menu-icon", true);
+hideElement(".mobile-menu-drawer", ".mobile-menu-close");
+
 // all the divs with class has-submenu-mobile
 const menuItemswithSubmenu = document.querySelectorAll(".has-submenu-mobile");
 const childlinksContainer = document.querySelectorAll(".mobile-childlinks");
-
-mobileMenuButton.addEventListener("click", (e) => {
-  mobileMenuDrawer.classList.toggle("active");
-});
-
-mobileMenuClose.addEventListener("click", (e) => {
-  mobileMenuDrawer.classList.remove("active");
-});
 
 menuItemswithSubmenu.forEach((item, index) => {
   item.addEventListener("click", (e) => {
@@ -224,34 +268,40 @@ if (window.location.pathname === "/") {
 
 /* cart page logic */
 
-const handleQuantityUpdate = async (key, quantity) => {
-  const sectionId = document.querySelector(".cart-page").dataset.section;
-
+const handleQuantityUpdate = async (key, quantity, sectionId = null) => {
+  const sections = sectionId
+    ? "header,cart-mini," + sectionId
+    : "header,cart-mini";
   const payload = {
     id: key,
     quantity: quantity,
-    sections: "header," + sectionId,
+    sections: sections,
   };
 
   const sentData = sendUpdatedQuantity(payload);
 
   sentData.then((data) => {
     updateUIelement(data.data.sections["header"], ".items-in-cart");
-    updateUIelement(data.data.sections[sectionId], ".cart-page");
+    updateUIelement(data.data.sections["cart-mini"], ".cart-drawer form");
+    if (sectionId) {
+      updateUIelement(data.data.sections[sectionId], ".cart-page");
+    }
   });
 };
 
 addGlobalEventListener("change", ".cart-item-quantity", (e) => {
+  const sectionId = document.querySelector(".cart-page").dataset.section;
   let quantity = e.target.value;
   let key = e.target.dataset.variant;
-  handleQuantityUpdate(key, +quantity);
+  handleQuantityUpdate(key, +quantity, sectionId);
 });
 
 addGlobalEventListener("click", ".remove-cart-line-item", (e) => {
+  const sectionId = document.querySelector(".cart-page").dataset.section;
   e.preventDefault();
   let quantity = 0;
   let key = e.target.dataset.itemkey;
-  handleQuantityUpdate(key, +quantity);
+  handleQuantityUpdate(key, +quantity, sectionId);
 });
 
 addGlobalEventListener("click", ".pagination-nav-item", (e) => {
@@ -275,6 +325,8 @@ const handlePageLinkClick = (page) => {
   });
 };
 
+// product-cart Add to Cart
+
 const handleAddToCartProductCard = (variantID) => {
   let formData = {
     items: [
@@ -288,7 +340,6 @@ const handleAddToCartProductCard = (variantID) => {
   handleAddToCart(formData).then((response) => {
     updateUIelement(response.data.sections["header"], ".items-in-cart");
   });
-  // .then((data) => console.log(data));
 };
 
 // adds eventlistener to wishlist btn at the moment it is adding the product to cart on collections page.
@@ -437,8 +488,11 @@ addGlobalEventListener(
 
     handleAddToCart(formData).then((data) => {
       updateUIelement(data.data.sections.header, ".items-in-cart");
+      updateUIelement(data.data.sections["cart-mini"], ".cart-drawer form");
       addToCartButtonSpinner.classList.remove("active");
       addToCartButton.classList.remove("waiting");
+      document.querySelector(".cart-drawer").classList.add("active");
+      document.querySelector(".background-overlay").classList.add("active");
     });
   }
 );
@@ -470,3 +524,56 @@ addGlobalEventListener("click", ".quantity-selector", (e) => {
     }
   }
 });
+
+addGlobalEventListener(
+  "click",
+  ".cart-mini-quantity-selector, .cart-mini-quantity-selector *",
+  (e) => {
+    e.preventDefault();
+
+    if (e.target.matches(".is--plus")) {
+      const quantityInput = e.target.previousElementSibling;
+      quantityInput.value = +quantityInput.value + 1;
+      handleQuantityUpdate(quantityInput.dataset.key, +quantityInput.value);
+    } else if (e.target.matches(".is--minus")) {
+      const quantityInput = e.target.nextElementSibling;
+      if (quantityInput.value <= 1) {
+      } else {
+        quantityInput.value = +quantityInput.value - 1;
+        handleQuantityUpdate(quantityInput.dataset.key, +quantityInput.value);
+      }
+    } else if (e.target.matches(".is--delete, .is--delete *")) {
+      if (e.target.nextElementSibling !== null) {
+        handleQuantityUpdate(e.target.nextElementSibling.dataset.key, 0);
+      } else {
+        handleQuantityUpdate(
+          e.target.parentNode.nextElementSibling.dataset.key,
+          0
+        );
+      }
+    }
+  }
+);
+
+// cart-mini
+showElement(".cart-drawer", ".nav-cart-box", true);
+showElement(".cart-drawer", ".nav-cart-box-mobile", true);
+hideElement(".cart-drawer", ".cart-drawer-close-btn");
+
+// update quantity
+addGlobalEventListener("change", ".cart-mini-prod-quantity-input", (e) => {
+  let quantity = e.target.value;
+  let key = e.target.dataset.key;
+  handleQuantityUpdate(key, +quantity);
+});
+
+addGlobalEventListener(
+  "click",
+  ".remove-cart-mini-line-item, .remove-cart-mini-line-item *",
+  (e) => {
+    e.preventDefault();
+    let quantity = 0;
+    let key = e.target.dataset.itemkey;
+    handleQuantityUpdate(key, +quantity);
+  }
+);

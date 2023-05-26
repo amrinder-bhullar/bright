@@ -1,0 +1,112 @@
+<div
+  class="cart-drawer "
+  data-section-cart="{{ section.id }}"
+  aria-expanded="false">
+  <div class="cart-drawer-header">
+    <h3 class="cart-drawer-title">Shopping Cart</h3>
+    <div class="cart-drawer-close-btn">
+      <i class="fa-regular fa-x"></i>
+    </div>
+  </div>
+  <div class="cart-drawer-tabs"></div>
+
+  {% form 'cart', cart %}
+    <div class="cart-mini-items">
+      {% if cart.items != empty %}
+        {% for item in cart.items %}
+          <div class="cart-mini-item">
+            <a href="{{ item.url }}" class="cart-mini-item-image">
+              <img
+                src="{{ item.image.src | img_url: 'medium' }}"
+                loading="lazy"
+                alt="">
+            </a>
+            <div class="cart-mini-product-info">
+              <a href="{{ item.url }}" class="cart-mini-product-title">{{ item.title | strip_html | escape | truncatewords: 8 }}</a>
+              <div class="cart-mini-item-price">
+                {% if item.product.price > item.product.compare_at_price %}
+                  <span class="dicounted-original-price">{{ item.product.price | money }}</span>
+                  <span class="prod-discounted-price">
+                    {{ item.product.compare_at_price | money }}</span>
+                {% else %}
+                  <span>{{ item.price | money }}</span>
+                {% endif %}
+              </div>
+              {% comment %} Selected variants {% endcomment %}
+              {% unless item.product.has_only_default_variant %}
+                {% for variant in item.options_with_values %}
+                  <div class="cart-mini-variant-info">{{ variant.name }} : {{ variant.value }}</div>
+                {% endfor %}
+              {% endunless %}
+              <div class="item-total-quantity-edit">
+                <div class="cart-mini-prod-quantity">
+                  {% if item.quantity > 1 %}
+                    <button class="cart-mini-quantity-selector is--minus">-</button>
+                  {% else %}
+                    <button class="cart-mini-quantity-selector is--delete">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  {% endif %}
+                  <input
+                    type="number"
+                    class="cart-mini-prod-quantity-input"
+                    name="quantity"
+                    min="1"
+                    id="Quantity-{{section.id}}"
+                    size="4"
+                    pattern="[0-9]*"
+                    inputmode="numeric"
+                    data-current-qty="{{ item.quantity }}"
+                    data-key="{{ item.key }}"
+                    value="{{ item.quantity }}">
+                  <button class="cart-mini-quantity-selector is--plus">+</button>
+                </div>
+                <div class="item-total">
+                  {% if item.original_line_price != item.line_price %}
+                    {{ item.original_line_price | money }}{% endif %}
+                  {{ item.line_price | money }}
+                </div>
+                {% unless item.product.has_only_default_variant %}
+                  <div class="mini-cart-item-edit">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                  </div>
+                {% endunless %}
+              </div>
+              <a href="{{ item.url_to_remove }}" class="remove-cart-mini-line-item">
+                <i data-itemkey="{{ item.key }}" class="fa-regular fa-x"></i>
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div>Your cart is empty</div>
+      {% endif %}
+    </div>
+    <div class="cart-mini-footer">
+      <div class="cart-mini-sub-total">
+        <span>Subtotal:</span>
+        <span>{{ cart.total_price | money }}</span>
+      </div>
+      <div class="cart-mini-actions">
+        <a href="/cart" class="cart-mini-cart-link">
+          View Cart</a>
+        <button
+          class="cart-mini-checkout"
+          type="submit"
+          name="checkout">Checkout</button>
+      </div>
+    </div>
+  {% endform %}
+
+</div>
+
+{% schema %}
+  {
+    "name": "cart-mini",
+    "presets": [
+      {
+        "name": "cart-mini"
+      }
+    ]
+  }
+{% endschema %}

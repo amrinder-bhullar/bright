@@ -1,32 +1,32 @@
 {% comment %} <div class="mega-menu">
-    <p>{{ childlinks.levels }}</p>
-    <ul>
-        {% for link in childlinks.links %}
-            {% if link.links != blank %}
-                <li>{{link.title}}+</li>
-            {% else %}
-                <li>{{link.title}}</li>
-        {% endif %}
-        {% endfor %}
-    </ul>
+  <p>{{ childlinks.levels }}</p>
+  <ul>
+  {% for link in childlinks.links %}
+  {% if link.links != blank %}
+  <li>{{link.title}}+</li>
+  {% else %}
+  <li>{{link.title}}</li>
+  {% endif %}
+  {% endfor %}
+  </ul>
 </div> {% endcomment %}
 
-<div class="mega-menu">
-    {% if link.levels > 1 %}
-        <div class="childlinks-with-children">
-            {% for childlink in link.links %}
-                    <div class="link-grandchilds">
-                    <div class="childlink-title">{{childlink.title}}</div>
-                    {% for grandchild in childlink.links %}
-                        <a href="{{grandchild.url}}" class="grandchildlink">{{grandchild.title}}</a>
-                    {% endfor %}
-                    </div>
-            {% endfor %}
-            {% if link.title == 'Blogs' %}
-                <div>Blog article</div>
-            {% endif %}
+<div class="mega-menu{% if link.levels > 1 %} mega{% endif %}">
+  {% if link.levels > 1 %}
+    <div class="childlinks-with-children">
+      {% for childlink in link.links %}
+        <div class="link-grandchilds">
+          <div class="childlink-title">{{ childlink.title }}</div>
+          {% for grandchild in childlink.links %}
+            <a href="{{grandchild.url}}" class="grandchildlink">{{ grandchild.title }}</a>
+          {% endfor %}
         </div>
-        {% else %}
-            <div>childlinks level 1</div>
-    {% endif %}
+      {% endfor %}
+      {% if link.title == 'Blogs' %}
+        <div>Blog article</div>
+      {% endif %}
+    </div>
+  {% else %}
+    <div>childlinks level 1</div>
+  {% endif %}
 </div>

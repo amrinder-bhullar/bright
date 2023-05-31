@@ -1,3 +1,4 @@
+<script defer src="{{ 'filters.js' | asset_url }}"></script>
 <div class="collection-page-container" data-section="{{ section.id }}">
   <div class="collection-page-header">
     <h1>{{ collection.title }}</h1>
@@ -17,6 +18,9 @@
         </a>
       {% endfor %}
     </div>
+  </div>
+  <div class="filter-container">
+    {% render 'filter-form' %}
   </div>
   <div class="collection-container">
     {% paginate collection.products by 12 %}

@@ -23,29 +23,28 @@
 
       {% endif %}
     </div>
-    <div class="variants-info">
-      <div class="color-variants">
-        <input
-          type="radio"
-          name="variant"
-          id="">
-        <input
-          type="radio"
-          name="variant"
-          id="">
+    {% unless product.has_only_default_variant %}
+      <div class="variants-info">
+        {% for option in product.options_with_values %}
+          {% if option.name == "Color" %}
+            <div class="color-variants">
+              {% for value in option.values %}
+                <span
+                  class="product-card-color-radio"
+                  style="background-color: {{ value }};"
+                  data-img-url=""></span>
+              {% endfor %}
+            </div>
+          {% elsif option.name == "Size" %}
+            <div class="size-variants">
+              {% for value in option.values %}
+                <span>{{ value | escape }}</span>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endfor %}
       </div>
-      <div class="size-variants">
-
-
-        {% unless product.has_only_default_variant %}
-          {% for option in product.options_with_values %}
-            {% for value in option.values %}
-              <span>{{ value | escape }}</span>
-            {% endfor %}
-          {% endfor %}
-        {% endunless %}
-      </div>
-    </div>
+    {% endunless %}
   </a>
   <div class="product-card-info">
     <div class="name-wishlist">

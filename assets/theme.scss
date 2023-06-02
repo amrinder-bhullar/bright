@@ -556,6 +556,7 @@ html {
         }
     }
     .product-card-info{
+        
         .name-wishlist{
             display: flex;
             align-items: center;
@@ -1547,6 +1548,9 @@ footer{
                 height: 55px;
                 column-gap: 10px;
                 margin-top: 20px;
+                @include md {
+                    flex-direction: column;
+                }
                 .prod-quantity{
                     display: flex;
                     align-items: center;
@@ -2032,5 +2036,236 @@ footer{
         visibility: visible;
         opacity: 1;
         transition: all 0.3s;
+    }
+}
+
+//filter drawer
+
+.filter-drawer{
+    width: 430px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+    background-color: white;
+    overflow: hidden;
+    visibility: hidden;
+    opacity: 0;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    transform: translateX(-100%);
+    transition: transform .4s,visibility .4s, opacity .2s;
+    @include md{
+        width: 90%;
+    }
+    &.active{
+        transform: translateX(0%);
+        visibility: visible;
+        opacity: 1;
+    }
+
+    form{
+        height: 100%;
+        overflow: scroll;
+    }
+}
+
+
+
+.filter-container{
+    margin-top: 30px;
+    padding-inline: 60px;
+    @include rwd(1100){
+        padding-inline: 10px;
+    }
+    .filter-button{
+        background: transparent;
+        border: none;
+        text-transform: uppercase;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+            i{
+                margin-right: 5px;
+            }
+            &:hover{
+                color: $primary-hover-color;
+            }
+        }
+        .filter-info{
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin: 20px;
+            margin-inline: 0;
+            // gap: 10px;
+            font-size: 1em;
+            .filter-products-found{
+                padding-right: 10px;
+                border-right: 1px solid $border-color;
+                span{
+                    color: $primary-hover-color;
+                }
+            }
+            .active-filters{
+                .active-filters__remove-filter{
+                    padding-inline: 10px;
+                    border-right: 1px solid $border-color;
+                    span{
+                        margin-right: 5px;
+                        font-size: 12px;
+                        font-weight: 600;
+                    }
+                    &:hover{
+                        color: $primary-hover-color;
+                    }
+                }
+                .active-filters__clear{
+                    margin-left: 10px;
+                    height: 20px;
+                    background-color: $primary-hover-color;
+                    border-radius: 20px;
+                    padding: 3px 10px;
+                    color: white;
+                    span{
+                        margin-right: 3px;
+                        font-size: 12px;
+                        font-weight: 600;
+                    }
+                    &:hover{
+                        color: $primary-hover-color;
+                        background-color: white;
+                        border: 1px solid $primary-hover-color;
+                    }
+                }
+            }
+        }
+}
+
+.filter-form{
+    position: relative;
+    .filter-drawer-header{
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid $border-color;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color: white;
+        h3{
+            text-transform: uppercase;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        button{
+            background: transparent;
+            cursor: pointer;
+            border: none;
+            transform: rotate(0);
+            transition: transform 0.3s ease-in-out;
+            
+            &:hover{
+                transform: rotate(180deg);
+            }
+        }
+    }
+    .filters-container{
+        padding-inline: 15px;
+        margin: 50px auto;
+        .filter-group{
+            padding: 15px 0;
+            border-bottom: 1px solid $border-color;
+            .filter-group-display{
+                .filter-group-display__header{
+                    font-size: 12px;
+                    color: $pri-cl;
+                    margin: 5px auto;
+                    .filter-group-display__header-reset{
+                        margin-left: 10px;
+                    }
+                }
+                .filter-group-display__list-item{
+
+                    .single-filter-value{
+                        .checkbox-wrapper{
+                                width: 16px;
+                                height: 16px;
+                                min-width: 16px;
+                                border: 1px solid $border-color;
+                                display: inline-flex;
+                                justify-content: center;
+                                align-items: center;
+                                margin-inline-end: 10px;
+                            svg{
+                                visibility: hidden;
+                                opacity: 0;
+                                padding: 1px;
+                            }
+                        }
+                
+                        &.disabled{
+                            color: $border-color;
+                        }
+                    }
+                
+                    &.active{
+                        .single-filter-value{
+                            .checkbox-wrapper{
+                                background-color: $primary-hover-color;
+                                svg{
+                                    visibility: visible;
+                                    opacity: 1;
+                                    color: white
+                                }
+                            }
+                        }
+                    }
+                }
+                .filter-group-display__price-range{
+                    display: flex;
+                    gap: 20px;
+                }
+                .filter-group-display__submit button{
+                    @include pri-button();
+                    border: 2px solid black;
+                    border-radius: 4px;
+                    color: black;
+                    padding: 8px 30px;
+                    font-size: 16px;
+                    font-weight: 500;
+                    margin-top: 20px;
+                    &:hover{
+                        border-color: $primary-hover-color;
+                    }
+                }
+            }
+        }
+    }
+    .filter-drawer-bottom{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: white;
+        padding: 15px;
+        border-top: 1px solid $border-color;
+        &:hover{
+            color: $primary-hover-color;
+        }
+    }
+}
+
+.color-variants{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    .product-card-color-radio{
+        height: 15px;
+        width: 15px;
+        border-radius: 50%;
+
     }
 }

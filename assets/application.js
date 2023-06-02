@@ -92,9 +92,27 @@ const showElement = (
       document.querySelector(selectorOfElementToShow).classList.add(classToAdd);
       enableOverlay &&
         document.querySelector(".background-overlay").classList.add("active");
+      document.body.style.overflow = "hidden";
       return true;
     }
   );
+
+  document.body.addEventListener("click", (e) => {
+    if (
+      document
+        .querySelector(selectorOfElementToShow)
+        .classList.contains("active") &&
+      !e.target.matches(
+        `${selectorOfElementToShow}, ${selectorOfElementToShow} *`
+      )
+    ) {
+      document
+        .querySelector(selectorOfElementToShow)
+        .classList.remove("active");
+      document.querySelector(".background-overlay").classList.remove("active");
+      document.body.style.removeProperty("overflow");
+    }
+  });
 
   if (classAdded) return true;
 };
@@ -121,12 +139,30 @@ const hideElement = (
         document
           .querySelector(".background-overlay")
           .classList.remove("active");
+        document.body.style.removeProperty("overflow");
       }
       return true;
     }
   );
 
   if (classRemoved) return true;
+};
+
+const findClass = (event, classToFind) => {
+  let targetElement = event.target;
+  let target;
+
+  // Check if the clicked element or any of its ancestors have the specific class
+  while (targetElement !== document.documentElement) {
+    if (targetElement.classList.contains(classToFind)) {
+      // Found the specific class, do something here
+      target = targetElement;
+
+      break;
+    }
+    targetElement = targetElement.parentNode;
+  }
+  return target;
 };
 
 // end of helper functions

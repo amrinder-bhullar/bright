@@ -27,13 +27,16 @@
   <div class="product-section">
     {% if product.images.size > 1 %}
       <div class="product-medias">
-        <div class="product-main-image">
+        <div
+          class="product-main-image">
           <section class="splide product-main-image-slider">
             <div class="splide__track">
-              <div class="splide__list">
+              <div
+                class="splide__list">
                 {% if product.options contains 'Color' %}
                   {% for image in product.images %}
-                    <div class="splide__slide">
+                    <div
+                      class="splide__slide">
                       <img
                         src="{{ image.src | img_url: 'large' }}"
                         loading="lazy"
@@ -217,6 +220,10 @@
 <div class="related-recent-products-container">
   {% include 'related-recent-products' %}
 </div>
+
+<script>
+  console.log({{product.id}})
+</script>
 
 
 {% schema %}

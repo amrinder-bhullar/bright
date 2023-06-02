@@ -1393,6 +1393,11 @@ footer section ul li:hover, footer section ul li a:hover {
        column-gap: 10px;
   margin-top: 20px;
 }
+@media (max-width: 768px) {
+  .product-page .product-section .product-info .add-to-cart-and-quantity {
+    flex-direction: column;
+  }
+}
 .product-page .product-section .product-info .add-to-cart-and-quantity .prod-quantity {
   display: flex;
   align-items: center;
@@ -1865,4 +1870,228 @@ footer section ul li:hover, footer section ul li a:hover {
   visibility: visible;
   opacity: 1;
   transition: all 0.3s;
+}
+
+.filter-drawer {
+  width: 430px;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  background-color: white;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  transform: translateX(-100%);
+  transition: transform 0.4s, visibility 0.4s, opacity 0.2s;
+}
+@media (max-width: 768px) {
+  .filter-drawer {
+    width: 90%;
+  }
+}
+.filter-drawer.active {
+  transform: translateX(0%);
+  visibility: visible;
+  opacity: 1;
+}
+.filter-drawer form {
+  height: 100%;
+  overflow: scroll;
+}
+
+.filter-container {
+  margin-top: 30px;
+  padding-inline: 60px;
+}
+@media (max-width: 1100px) {
+  .filter-container {
+    padding-inline: 10px;
+  }
+}
+.filter-container .filter-button {
+  background: transparent;
+  border: none;
+  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.filter-container .filter-button i {
+  margin-right: 5px;
+}
+.filter-container .filter-button:hover {
+  color: #0ec1ae;
+}
+.filter-container .filter-info {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 20px;
+  margin-inline: 0;
+  font-size: 1em;
+}
+.filter-container .filter-info .filter-products-found {
+  padding-right: 10px;
+  border-right: 1px solid #e6e6e6;
+}
+.filter-container .filter-info .filter-products-found span {
+  color: #0ec1ae;
+}
+.filter-container .filter-info .active-filters .active-filters__remove-filter {
+  padding-inline: 10px;
+  border-right: 1px solid #e6e6e6;
+}
+.filter-container .filter-info .active-filters .active-filters__remove-filter span {
+  margin-right: 5px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.filter-container .filter-info .active-filters .active-filters__remove-filter:hover {
+  color: #0ec1ae;
+}
+.filter-container .filter-info .active-filters .active-filters__clear {
+  margin-left: 10px;
+  height: 20px;
+  background-color: #0ec1ae;
+  border-radius: 20px;
+  padding: 3px 10px;
+  color: white;
+}
+.filter-container .filter-info .active-filters .active-filters__clear span {
+  margin-right: 3px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.filter-container .filter-info .active-filters .active-filters__clear:hover {
+  color: #0ec1ae;
+  background-color: white;
+  border: 1px solid #0ec1ae;
+}
+
+.filter-form {
+  position: relative;
+}
+.filter-form .filter-drawer-header {
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e6e6e6;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+}
+.filter-form .filter-drawer-header h3 {
+  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: 500;
+}
+.filter-form .filter-drawer-header button {
+  background: transparent;
+  cursor: pointer;
+  border: none;
+  transform: rotate(0);
+  transition: transform 0.3s ease-in-out;
+}
+.filter-form .filter-drawer-header button:hover {
+  transform: rotate(180deg);
+}
+.filter-form .filters-container {
+  padding-inline: 15px;
+  margin: 50px auto;
+}
+.filter-form .filters-container .filter-group {
+  padding: 15px 0;
+  border-bottom: 1px solid #e6e6e6;
+}
+.filter-form .filters-container .filter-group .filter-group-display .filter-group-display__header {
+  font-size: 12px;
+  color: #868686;
+  margin: 5px auto;
+}
+.filter-form .filters-container .filter-group .filter-group-display .filter-group-display__header .filter-group-display__header-reset {
+  margin-left: 10px;
+}
+.filter-form .filters-container .filter-group .filter-group-display .filter-group-display__list-item .single-filter-value .checkbox-wrapper {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  border: 1px solid #e6e6e6;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-margin-end: 10px;
+          margin-inline-end: 10px;
+}
+.filter-form .filters-container .filter-group .filter-group-display .filter-group-display__list-item .single-filter-value .checkbox-wrapper svg {
+  visibility: hidden;
+  opacity: 0;
+  padding: 1px;
+}
+.filter-form .filters-container .filter-group .filter-group-display .filter-group-display__list-item .single-filter-value.disabled {
+  color: #e6e6e6;
+}
+.filter-form .filters-container .filter-group .filter-group-display .filter-group-display__list-item.active .single-filter-value .checkbox-wrapper {
+  background-color: #0ec1ae;
+}
+.filter-form .filters-container .filter-group .filter-group-display .filter-group-display__list-item.active .single-filter-value .checkbox-wrapper svg {
+  visibility: visible;
+  opacity: 1;
+  color: white;
+}
+.filter-form .filters-container .filter-group .filter-group-display .filter-group-display__price-range {
+  display: flex;
+  gap: 20px;
+}
+.filter-form .filters-container .filter-group .filter-group-display .filter-group-display__submit button {
+  padding: 12px 30px;
+  color: white;
+  background-color: transparent;
+  border: 1px solid white;
+  font-size: 12px;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: 2px solid black;
+  border-radius: 4px;
+  color: black;
+  padding: 8px 30px;
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 20px;
+}
+.filter-form .filters-container .filter-group .filter-group-display .filter-group-display__submit button:hover {
+  background-color: #0ec1ae;
+  color: white;
+  border-color: black;
+}
+.filter-form .filters-container .filter-group .filter-group-display .filter-group-display__submit button:hover {
+  border-color: #0ec1ae;
+}
+.filter-form .filter-drawer-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  padding: 15px;
+  border-top: 1px solid #e6e6e6;
+}
+.filter-form .filter-drawer-bottom:hover {
+  color: #0ec1ae;
+}
+
+.color-variants {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.color-variants .product-card-color-radio {
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
 }/*# sourceMappingURL=theme.css.map */

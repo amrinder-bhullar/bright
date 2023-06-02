@@ -1,4 +1,9 @@
 <script defer src="{{ 'filters.js' | asset_url }}"></script>
+{% for filter in collection.filters %}
+  {% if filter.active_values.size > 0 %}
+    {% assign filter_has_values = filter.active_values.size %}
+  {% endif %}
+{% endfor %}
 <div class="collection-page-container" data-section="{{ section.id }}">
   <div class="collection-page-header">
     <h1>{{ collection.title }}</h1>
@@ -19,8 +24,46 @@
       {% endfor %}
     </div>
   </div>
-  <div class="filter-container">
-    {% render 'filter-form' %}
+  <div
+    class="filter-container">
+    <button type="button" class="filter-button">
+      <i class="fa-solid fa-filter"></i>filter</button>
+
+    {% if filter_has_values > 0 %}
+      <div class="filter-info">
+        <div
+          class="filter-products-found">
+          <span>{{ collection.products_count }}</span>
+          Products Found</div>
+        <div class="active-filters">
+          {%- for filter in collection.filters -%}
+            {%- if filter.type == "price_range" -%}
+              {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+                <a class="active-filters__remove-filter" href="{{ filter.url_to_remove }}">
+                  <span>X</span>
+                  {%- assign min_value = filter.min_value.value | default: 0 -%}
+                  {%- assign max_value = filter.max_value.value | default: filter.range_max -%}
+                  {{ min_value | money }} - {{ max_value | money }}
+                </a>
+              {%- endif -%}
+            {%- else -%}
+              {%- for filter_value in filter.active_values -%}
+                <a class="active-filters__remove-filter" href="{{ filter_value.url_to_remove }}">
+                  <span>X</span>
+                  {{ filter_value.label }}
+                </a>
+              {%- endfor -%}
+            {%- endif- %}
+          {%- endfor -%}
+          <a href="{{ collection.url }}?sort_by={{ collection.sort_by }}" class="active-filters__clear">
+            <span>X</span>
+            Clear all</a>
+        </div>
+      </div>
+    {% endif %}
+    <div class="filter-drawer">
+      {% render 'filter-form' %}
+    </div>
   </div>
   <div class="collection-container">
     {% paginate collection.products by 12 %}

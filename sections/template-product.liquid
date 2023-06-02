@@ -218,41 +218,6 @@
   {% include 'related-recent-products' %}
 </div>
 
-<div id="product-recommendations">
-  {%- if recommendations.performed? -%}
-    {%- if recommendations.products_count > 0 -%}
-      {% if recommendations.intent == 'related' %}
-        <h2>You may also like</h2>
-      {% elsif recommendations.intent == 'complementary' %}
-        <h2>Pair it with</h2>
-      {% endif %}
-
-      <ul>
-        {%- for product in recommendations.products -%}
-          <li class="grid__item small--one-half medium-up--one-quarter">
-            <a href="{{ product.url }}">
-              <span>{{ product.title }}</span>
-              <span>{{ product.price | money }}</span>
-            </a>
-          </li>
-        {%- endfor -%}
-      </ul>
-    {%- endif -%}
-  {%- endif -%}
-</div>
-
-
-<script>
-  const productId = {{ product.id }}
-  console.log(productId);
-  const productRecommendationsSection = document.querySelector('.product-recommendations');
-
-  fetch(window.Shopify.routes.root + `recommendations/products?section_id=template--16826368229600__template&product_id=${productId}&limit=4&intent=related`).then(response => response.text()).then(data => {
-    debugger;
-    updateUIelement(data, ".product-recommendations")
-  })
-</script>
-
 
 {% schema %}
   {

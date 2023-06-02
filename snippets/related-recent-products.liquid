@@ -8,24 +8,48 @@
     </div>
   </div>
   <div class="carousel-container">
-    <div class="carousel-body active">
-      {% for product in collections['women'].products limit: 4 %}
-        {% include 'product-card' product: product %}
-      {% endfor %}
+    <div class="carousel-body active" id="product-recommendations">
+      {%- if recommendations.performed? -%}
+        {%- if recommendations.products_count > 0 -%}
+          {% for product in recommendations.products limit: 4 %}
+            {% render 'product-card' product: product %}
+          {% endfor %}
+        {%- endif -%}
+      {%- endif -%}
     </div>
     <div class="carousel-body">
       {% for product in collections['men'].products limit: 4 %}
-        {% include 'product-card' product: product %}
+        {% render 'product-card' product: product %}
       {% endfor %}
     </div>
   </div>
 </section>
 
-<script>
+{% comment %} <div id="product-recommendations">
+  {%- if recommendations.performed? -%}
+  {%- if recommendations.products_count > 0 -%}
+  {% if recommendations.intent == 'related' %}
+  <h2>You may also like</h2>
+  {% elsif recommendations.intent == 'complementary' %}
+  <h2>Pair it with</h2>
+  {% endif %}
+
+  <ul>
+  {%- for product in recommendations.products -%}
+  <li class="grid__item small--one-half medium-up--one-quarter">
+  <a href="{{ product.url }}">
+  <span>{{ product.title }}</span>
+  <span>{{ product.price | money }}</span>
+  </a>
+  </li>
+  {%- endfor -%}
+  </ul>
+  {%- endif -%}
+  {%- endif -%}
+</div> {% endcomment %}<script defer>
   const carouselNavButtons = document.querySelectorAll(".carousel-nav-button span");
-
   const carouselBodys = document.querySelectorAll(".carousel-body");
-
+                            
   carouselNavButtons.forEach((button, index) => {
     button.addEventListener("click", () => {
       carouselNavButtons.forEach((button) => button.classList.remove("active"));
@@ -34,4 +58,25 @@
       carouselBodys[index].classList.add("active");
     });
   });
-</script>
+                            
+  const productId = {{ product.id }}
+
+  fetch(window.Shopify.routes.root + `recommendations/products?section_id=template--16826368229600__template&product_id=${productId}&limit=4&intent=related`).then(response => response.text()).then(data => {
+  updateUIelement(data, "#product-recommendations")
+  })
+                              
+  //let recentlySeenItems= [];
+  if("recently_seen" in localStorage) {
+    let itemsInLocalStorage = JSON.parse(localStorage.getItem("recently_seen"))
+    if (!itemsInLocalStorage.includes(`id:${productId}`)){
+      let recentlySeenItems = [`id:${productId}`,...itemsInLocalStorage]
+      if(recentlySeenItems.length > 10) recentlySeenItems.pop()
+      localStorage.setItem("recently_seen", JSON.stringify(recentlySeenItems));
+    }
+    } 
+    else {
+      let recentlySeenItems = [`id:${productId}`]
+      localStorage.setItem("recently_seen", JSON.stringify(recentlySeenItems));
+    }
+  //console.log(recentlySeenItems)
+  </script>

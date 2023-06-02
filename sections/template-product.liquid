@@ -27,16 +27,13 @@
   <div class="product-section">
     {% if product.images.size > 1 %}
       <div class="product-medias">
-        <div
-          class="product-main-image">
+        <div class="product-main-image">
           <section class="splide product-main-image-slider">
             <div class="splide__track">
-              <div
-                class="splide__list">
+              <div class="splide__list">
                 {% if product.options contains 'Color' %}
                   {% for image in product.images %}
-                    <div
-                      class="splide__slide">
+                    <div class="splide__slide">
                       <img
                         src="{{ image.src | img_url: 'large' }}"
                         loading="lazy"
@@ -221,8 +218,43 @@
   {% include 'related-recent-products' %}
 </div>
 
+{%- if recommendations.performed? -%}
+  <div id="product-recommendations">
+    {%- if recommendations.products_count > 0 -%}
+      {% if recommendations.intent == 'related' %}
+        <h2>You may also like</h2>
+      {% elsif recommendations.intent == 'complementary' %}
+        <h2>Pair it with</h2>
+      {% endif %}
+
+      <ul>
+        {%- for product in recommendations.products -%}
+          <li class="grid__item small--one-half medium-up--one-quarter">
+            <a href="{{ product.url }}">
+              <span>{{ product.title }}</span>
+              <span>{{ product.price | money }}</span>
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+
 <script>
-  console.log({{product.id}})
+  const productId = {{product.id}}
+  const productRecommendationsSection = document.querySelector('.product-recommendations');
+
+  fetch(window.Shopify.routes.root + `recommendations/products?product_id=${productId}&limit=4&section_id=product-recommendations&intent=related`).then(response => response.text()).then((text) => {
+    const html = document.createElement('div');
+    html.innerHTML = text;
+    const recommendations = html.querySelector('.product-recommendations');
+
+    if (recommendations && recommendations.innerHTML.trim().length) {
+      productRecommendationsSection.innerHTML = recommendations.innerHTML;
+    }
+  });
 </script>
 
 

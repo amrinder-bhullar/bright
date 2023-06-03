@@ -51,10 +51,13 @@
         "settings": {
           "thirdTabContent": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit laudantium aut est magnam, accusantium vitae adipisci enim cum dignissimos dolore perspiciatis porro distinctio, assumenda quas eligendi consequatur, dolorum animi dolorem architecto sunt? Id culpa ad quis nulla dolorem numquam neque!"
         }
-      }
+      },
+        "related-products": {
+          "type" : "related"
+        }
     },
     "order": [
-      "template"
+      "template", "related-products"
     ]
   }
   

@@ -41,9 +41,11 @@ if ("recently_seen" in localStorage) {
   localStorage.setItem("recently_seen", JSON.stringify(recentlySeenItems));
 }
 
-const productsIDsForSearch = recentlySeenItems.join(" OR ");
+const arrayWithoutCurrentProductID = recentlySeenItems.filter((item) => {
+  return item !== `id:${productId}`;
+});
 
-// console.log(productsIDsForSearch);
+const productsIDsForSearch = arrayWithoutCurrentProductID.join(" OR ");
 
 fetch(
   window.Shopify.routes.root +

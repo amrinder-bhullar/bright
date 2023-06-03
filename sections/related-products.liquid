@@ -21,7 +21,7 @@
       {%- endif -%}
     </div>
     <div class="carousel-body" id="recently-visited">
-      {% for product in search.results limit: 4 %}
+      {% for product in search.results limit: 10 %}
         {% render 'product-card' product: product %}
       {% endfor %}
     </div>

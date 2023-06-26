@@ -147,7 +147,8 @@
         <a
           href="{{ product.url }}"
           data-id="{{ selected_variant.id }}"
-          class="wis-button-container">
+          data-productID="{{ product.id }}"
+          class="wis-button-container wishlist-product">
           <span class="wis-button-icon">
             {% include 'heart-icon' %}
           </span>

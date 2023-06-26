@@ -21,7 +21,8 @@
       {%- endif -%}
     </div>
     <div class="carousel-body" id="recently-visited">
-      {% for product in search.results limit: 10 %}
+      {% assign search_results = search.results | sort: "id" %}
+      {% for product in search_results limit: 4 %}
         {% render 'product-card' product: product %}
       {% endfor %}
     </div>

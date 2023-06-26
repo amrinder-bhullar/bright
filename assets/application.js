@@ -47,10 +47,10 @@ const sendUpdatedQuantity = (payload) => {
 
 // update UI element pass the finaldata which will be converted to DomParser, accepts 2 params final data and selector to update
 
-const updateUIelement = (data, selector) => {
+const updateUIelement = (data, selector, targetSelector = selector) => {
   const htmlFromData = new DOMParser().parseFromString(data, "text/html");
   const containerToUpdate = document.querySelector(selector);
-  const updatedData = htmlFromData.querySelector(selector);
+  const updatedData = htmlFromData.querySelector(targetSelector);
 
   if (containerToUpdate && updatedData) {
     containerToUpdate.innerHTML = updatedData.innerHTML;
@@ -378,12 +378,90 @@ const handleAddToCartProductCard = (variantID) => {
   });
 };
 
+const addProductToWishlist = (e) => {
+  const wishlistBtn = findClass(e, "wishlist-product");
+  let productID = wishlistBtn.dataset.productid;
+  let wishlistItems;
+
+  if ("wishlist" in localStorage) {
+    wishlistItems = JSON.parse(localStorage.getItem("wishlist"));
+    if (wishlistItems.includes(`id:${productID}`)) {
+      wishlistItems = wishlistItems.filter(
+        (item) => item !== `id:${productID}`
+      );
+      wishlistBtn.classList.remove("active");
+    } else {
+      wishlistItems = [`id:${productID}`, ...wishlistItems];
+      wishlistBtn.classList.add("active");
+    }
+    localStorage.setItem("wishlist", JSON.stringify(wishlistItems));
+  } else {
+    localStorage.setItem("wishlist", JSON.stringify([`id:${productID}`]));
+  }
+};
+
 // adds eventlistener to wishlist btn at the moment it is adding the product to cart on collections page.
 
-addGlobalEventListener("click", ".product-card-wishlist-btn", (e) => {
-  let variantID = e.target.parentNode.dataset.variantid;
-  handleAddToCartProductCard(variantID);
-});
+addGlobalEventListener(
+  "click",
+  ".wishlist-product, .wishlist-product *",
+  (e) => {
+    e.preventDefault();
+
+    addProductToWishlist(e);
+  }
+);
+
+// check products wishlist when page loads
+
+const checkWishlistedProducts = () => {
+  if ("wishlist" in localStorage) {
+    wishlistItems = JSON.parse(localStorage.getItem("wishlist"));
+    const wishlistButtons = document.querySelectorAll(".product-card-wishlist");
+
+    wishlistButtons.forEach((wishlist) => {
+      const productID = wishlist.dataset.productid;
+      if (wishlistItems.includes(`id:${productID}`)) {
+        console.log("class added to", wishlist);
+        wishlist.classList.add("active");
+      }
+    });
+  }
+};
+
+const checkWishlistedProduct = () => {
+  if ("wishlist" in localStorage) {
+    wishlistItems = JSON.parse(localStorage.getItem("wishlist"));
+    const wishlistButton = document.querySelector(".wis-button-container");
+
+    const productID = wishlistButton.dataset.productid;
+    if (wishlistItems.includes(`id:${productID}`)) {
+      // console.log("class added to", wishlistButton);
+      wishlistButton.classList.add("active");
+      wishlistButton.querySelector(".wis-button-text").innerText =
+        "Browse wishlist";
+    }
+  }
+};
+
+const checkWishlitedProductInQuickView = () => {
+  if ("wishlist" in localStorage) {
+    wishlistItems = JSON.parse(localStorage.getItem("wishlist"));
+    const wishlist = document
+      .querySelector(".quickview-container")
+      .querySelector(".wishlist-product");
+    const productID = wishlist.dataset.productid;
+    if (wishlistItems.includes(`id:${productID}`)) {
+      wishlist.classList.add("active");
+      wishlist.querySelector(".wis-button-text").innerText =
+        "Browse the Wishlist";
+      wishlist.href = "/pages/wishlist";
+    }
+  }
+};
+
+document.addEventListener("DOMContentLoaded", checkWishlistedProducts);
+document.addEventListener("DOMContentLoaded", checkWishlistedProduct);
 
 // product page
 
@@ -549,7 +627,10 @@ tabs.forEach((tab, index) => {
 
 addGlobalEventListener("click", ".quantity-selector", (e) => {
   e.preventDefault();
-  const quantityInput = document.querySelector(".prod-quantity-input");
+  // const quantityInput = document.querySelector(".prod-quantity-input");
+  const quantityInput = findClass(e, "prod-quantity").querySelector(
+    ".prod-quantity-input"
+  );
 
   if (e.target.matches(".is--plus")) {
     quantityInput.value = +quantityInput.value + 1;
@@ -566,27 +647,21 @@ addGlobalEventListener(
   ".cart-mini-quantity-selector, .cart-mini-quantity-selector *",
   (e) => {
     e.preventDefault();
+    const quantityInput = findClass(e, "cart-mini-prod-quantity").querySelector(
+      ".cart-mini-prod-quantity-input"
+    );
 
     if (e.target.matches(".is--plus")) {
-      const quantityInput = e.target.previousElementSibling;
       quantityInput.value = +quantityInput.value + 1;
       handleQuantityUpdate(quantityInput.dataset.key, +quantityInput.value);
     } else if (e.target.matches(".is--minus")) {
-      const quantityInput = e.target.nextElementSibling;
       if (quantityInput.value <= 1) {
       } else {
         quantityInput.value = +quantityInput.value - 1;
         handleQuantityUpdate(quantityInput.dataset.key, +quantityInput.value);
       }
     } else if (e.target.matches(".is--delete, .is--delete *")) {
-      if (e.target.nextElementSibling !== null) {
-        handleQuantityUpdate(e.target.nextElementSibling.dataset.key, 0);
-      } else {
-        handleQuantityUpdate(
-          e.target.parentNode.nextElementSibling.dataset.key,
-          0
-        );
-      }
+      handleQuantityUpdate(quantityInput.dataset.key, 0);
     }
   }
 );
@@ -613,3 +688,156 @@ addGlobalEventListener(
     handleQuantityUpdate(key, +quantity);
   }
 );
+
+// when clicked on quickview button display the product
+
+addGlobalEventListener("click", ".quickview, .quickview *", (e) => {
+  e.preventDefault();
+
+  let prodUrl = findClass(e, "quickview").dataset.prodUrl;
+  const quickViewContainer = document.createElement("div");
+  quickViewContainer.classList.add("quickview-container");
+  const popups = document.getElementById("popups");
+  popups.before(quickViewContainer);
+
+  fetch(`/products/${prodUrl}?section_id=quickview`)
+    .then((response) => response.text())
+    .then((data) => {
+      updateUIelement(data, ".quickview-container");
+      addGlobalEventListener(
+        "click",
+        ".quickview-close, .quickview-close *",
+        (e) => {
+          document.querySelector(".quickview-container").remove();
+          checkWishlistedProducts();
+        }
+      );
+      checkWishlitedProductInQuickView();
+    });
+});
+
+// quickview add to cart button
+
+addGlobalEventListener(
+  "click",
+  ".quick-view-add-to-cart-button, .quick-view-add-to-cart-button *",
+  (e) => {
+    e.preventDefault();
+    const addToCartButtonSpinner = document.querySelector(".lds-dual-ring");
+    const addToCartButton = document.querySelector(
+      ".quick-view-add-to-cart-button"
+    );
+
+    let addToCartForm = document.querySelector("#quick-product-form");
+    let formData = new FormData(addToCartForm);
+
+    addToCartButtonSpinner.classList.add("active");
+    addToCartButton.classList.add("waiting");
+
+    handleAddToCart(formData).then((data) => {
+      updateUIelement(data.data.sections.header, ".items-in-cart");
+      updateUIelement(data.data.sections["cart-mini"], ".cart-drawer form");
+      addToCartButtonSpinner.classList.remove("active");
+      addToCartButton.classList.remove("waiting");
+      document.querySelector(".quickview-container").remove();
+      document.querySelector(".cart-drawer").classList.add("active");
+      document.querySelector(".background-overlay").classList.add("active");
+    });
+  }
+);
+
+// quickView variant selector
+
+document.addEventListener("DOMContentLoaded", function () {
+  addGlobalEventListener(
+    "click",
+    ".qv-option-value, .qv-option-value *",
+    (e) => {
+      const qvInner = findClass(e, "quickview-container");
+      const variantValues = [];
+      variantValues.push(e.target.dataset.value);
+      const optionType = e.target.dataset.swatchType;
+      const activeVariants = qvInner.querySelectorAll(
+        ".qv-option-value.is_selected"
+      );
+
+      activeVariants.forEach((variant) => {
+        if (variant.dataset.swatchType !== optionType) {
+          variantValues.push(variant.dataset.value);
+        }
+      });
+
+      const newVariantValues = variantValues.sort();
+
+      const variantData = JSON.parse(
+        qvInner.querySelector('[type="application/json"]').textContent
+      );
+
+      const currentVariant = variantData.find((variant, index) => {
+        const findings = !variant.options
+          .sort()
+          .map((option, index) => {
+            return newVariantValues[index] === option;
+          })
+          .includes(false);
+        if (findings) return variant;
+      });
+
+      const updateUI = () => {
+        const productUrl = qvInner.querySelector(".prod-variants");
+
+        const qvUpdateSelectedVariantID = (data, selector) => {
+          const htmlFromData = new DOMParser().parseFromString(
+            data,
+            "text/html"
+          );
+          const valueToUpdate = qvInner.querySelector(selector);
+          const updatedData = htmlFromData.querySelector(selector).value;
+
+          if (valueToUpdate && updatedData) {
+            valueToUpdate.value = updatedData;
+            return true;
+          }
+        };
+
+        const qvUpdateUIelement = (
+          data,
+          selector,
+          targetSelector = selector
+        ) => {
+          const htmlFromData = new DOMParser().parseFromString(
+            data,
+            "text/html"
+          );
+          const containerToUpdate = qvInner.querySelector(selector);
+          const updatedData = htmlFromData.querySelector(targetSelector);
+
+          if (containerToUpdate && updatedData) {
+            containerToUpdate.innerHTML = updatedData.innerHTML;
+            return true;
+          }
+        };
+
+        const getData = fetch(
+          `${productUrl.dataset.url}?variant=${currentVariant.id}&section_id=quickview`
+        );
+
+        getData
+          .then((res) => res.text())
+          .then((data) => {
+            qvUpdateSelectedVariantID(data, "input[name='id']");
+            qvUpdateUIelement(data, ".prod-price");
+            qvUpdateUIelement(data, ".prod-variants");
+          });
+      };
+
+      if (currentVariant) {
+        updateUI();
+      }
+    }
+  );
+
+  const selectedVariants = () => {};
+
+  const getSelectedVariant = () => {};
+});

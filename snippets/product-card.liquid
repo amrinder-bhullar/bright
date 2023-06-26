@@ -23,35 +23,41 @@
 
       {% endif %}
     </div>
-    {% unless product.has_only_default_variant %}
-      <div class="variants-info">
-        {% for option in product.options_with_values %}
-          {% if option.name == "Color" %}
-            <div class="color-variants">
-              {% for value in option.values %}
-                <span
-                  class="product-card-color-radio"
-                  style="background-color: {{ value }};"
-                  data-img-url=""></span>
-              {% endfor %}
-            </div>
-          {% elsif option.name == "Size" %}
-            <div class="size-variants">
-              {% for value in option.values %}
-                <span>{{ value | escape }}</span>
-              {% endfor %}
-            </div>
-          {% endif %}
-        {% endfor %}
-      </div>
-    {% endunless %}
+    <div class="hover-options">
+      {% unless product.has_only_default_variant %}
+        <div class="variants-info">
+          {% for option in product.options_with_values %}
+            {% if option.name == "Color" %}
+              <div class="color-variants">
+                {% for value in option.values %}
+                  <span
+                    class="product-card-color-radio"
+                    style="background-color: {{ value }};"
+                    data-img-url=""></span>
+                {% endfor %}
+              </div>
+            {% elsif option.name == "Size" %}
+              <div class="size-variants">
+                {% for value in option.values %}
+                  <span>{{ value | escape }}</span>
+                {% endfor %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endunless %}
+      <button class="product-card-button product-card-wishlist wishlist-product" data-productID="{{ product.id }}">
+        <i class="fa-solid fa-heart"></i>
+      </button>
+      <button class="product-card-button quickview" data-prod-url="{{ product.handle }}">
+        <i class="fa-solid fa-eye"></i>
+      </button>
+    </div>
   </a>
   <div class="product-card-info">
     <div class="name-wishlist">
-      <a href="{{ product.url }}" class="name">{{ product.title }}</a>
-      <div class="product-card-wishlist" data-variantID="{{ product.first_available_variant.id }}">
-        <i class="fa-solid fa-heart product-card-wishlist-btn"></i>
-      </div>
+      <a href="{{ product.url }}" class="name">{{ product.title }}
+      </a>
     </div>
     {% if product.price > product.compare_at_price %}
       <span class="price original-price">{{ product.price | money }}</span>

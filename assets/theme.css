@@ -426,7 +426,21 @@ html {
   top: 10px;
   left: 10px;
 }
-.product-card .product-card-inner .variants-info {
+.product-card .product-card-inner .hover-options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(30, 30, 30, 0.344);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  transition: all 0.3s;
+  visibility: hidden;
+  opacity: 0;
+}
+.product-card .product-card-inner .hover-options .variants-info {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -436,11 +450,31 @@ html {
   bottom: 0;
   left: 0;
   right: 0;
-  transition: all 0.3s;
-  visibility: hidden;
-  opacity: 0;
 }
-.product-card .product-card-inner:hover .variants-info {
+.product-card .product-card-inner .hover-options .product-card-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  color: #0ec1ae;
+  font-size: 16px;
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+}
+.product-card .product-card-inner .hover-options .product-card-button.quickview {
+  top: 40px;
+}
+.product-card .product-card-inner .hover-options .product-card-button.product-card-wishlist {
+  transition: background-color 0.3s ease-in-out, color 0.3s;
+}
+.product-card .product-card-inner .hover-options .product-card-button.product-card-wishlist.active {
+  background-color: red;
+  color: white;
+}
+.product-card .product-card-inner:hover .hover-options {
   visibility: visible;
   opacity: 1;
 }
@@ -734,7 +768,7 @@ footer section ul li:hover, footer section ul li a:hover {
   right: 0;
   left: 0;
   width: 70%;
-  max-width: 700px;
+  max-width: 980px;
   margin: 0 auto;
 }
 .mega-menu.active {
@@ -742,18 +776,59 @@ footer section ul li:hover, footer section ul li a:hover {
   opacity: 1;
 }
 .mega-menu .childlinks-with-children {
-  width: 600px;
+  width: 900px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
 }
 .mega-menu .childlinks-with-children .link-grandchilds {
+  flex: 0 0 auto;
+  width: 16.6%;
   display: flex;
   flex-direction: column;
   row-gap: 10px;
 }
 .mega-menu .childlinks-with-children .link-grandchilds a {
   padding: 0;
+}
+.mega-menu .childlinks-with-children .menu-collections-items {
+  flex: 0 0 auto;
+  width: 25%;
+}
+.mega-menu .childlinks-with-children .menu-collections-items .menu-collections-item {
+  position: relative;
+}
+.mega-menu .childlinks-with-children .menu-collections-items .menu-collections-item .menu-collections-item-title {
+  position: absolute;
+  bottom: 30px;
+  text-align: center;
+  background-color: black;
+  padding: 10px;
+  left: 0;
+  right: 0;
+  color: white;
+}
+.mega-menu .childlinks-with-children .top-rated-products {
+  flex: 0 0 auto;
+  width: 41.6;
+  display: flex;
+  flex-direction: column;
+}
+.mega-menu .childlinks-with-children .top-rated-products .top-rated-product {
+  display: flex;
+  gap: 20px;
+  border-bottom: 1px solid #e6e6e6;
+  margin-top: 20px;
+}
+.mega-menu .childlinks-with-children .top-rated-products .top-rated-product .top-rated-product-image {
+  width: 100px;
+  aspect-ratio: 1.3;
+}
+.mega-menu .childlinks-with-children .top-rated-products .top-rated-product .top-rated-product-image img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
 }
 
 .not-found-page {
@@ -1537,6 +1612,18 @@ footer section ul li:hover, footer section ul li a:hover {
   fill: none;
   pointer-events: none;
 }
+.product-page .product-section .product-info .wis_cp_container .wis-button-container.active {
+  color: red;
+}
+.product-page .product-section .product-info .wis_cp_container .wis-button-container.active:hover .wis-button-icon, .product-page .product-section .product-info .wis_cp_container .wis-button-container.active:hover .cp-button-icon {
+  border-color: red;
+}
+.product-page .product-section .product-info .wis_cp_container .wis-button-container.active span {
+  border-color: red;
+}
+.product-page .product-section .product-info .wis_cp_container .wis-button-container.active span svg {
+  fill: red;
+}
 .product-page .product-section .product-info .product-info-popups-container {
   display: flex;
   gap: 30px;
@@ -2094,4 +2181,291 @@ footer section ul li:hover, footer section ul li a:hover {
   height: 15px;
   width: 15px;
   border-radius: 50%;
+}
+
+.quickview-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1490196078);
+}
+.quickview-container::before {
+  content: "";
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  background-color: black;
+  opacity: 0.4;
+  display: block;
+}
+.quickview-container .quickview-inner {
+  position: relative;
+  z-index: 999;
+  max-width: 900px;
+  width: 100%;
+  margin-inline: auto;
+  background-color: white;
+  display: flex;
+  max-height: 500px;
+}
+@media (max-width: 768px) {
+  .quickview-container .quickview-inner {
+    max-width: calc(100% - 40px);
+  }
+}
+.quickview-container .quickview-inner .quickview-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 15px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+.quickview-container .quickview-inner .quick-product-images {
+  flex: 0 0 50%;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+}
+.quickview-container .quickview-inner .quick-product-images img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+  height: 100%;
+  width: 100%;
+}
+.quickview-container .quickview-inner .quick-product-info {
+  flex: 0 0 50%;
+  padding-inline: 20px;
+  margin-top: 30px;
+  overflow: scroll;
+}
+.quickview-container .quickview-inner .quick-product-info .prod-title {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+.quickview-container .quickview-inner .quick-product-info .prod-title {
+  font-weight: 400;
+}
+.quickview-container .quickview-inner .quick-product-info .prod-price {
+  font-size: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e6e6e6;
+}
+.quickview-container .quickview-inner .quick-product-info .prod-price .dicounted-original-price {
+  color: red;
+  text-decoration: line-through;
+  font-size: 18px;
+}
+.quickview-container .quickview-inner .quick-product-info .prod-short-desc {
+  font-size: 14px;
+  color: #868686;
+  margin-top: 10px;
+}
+.quickview-container .quickview-inner .quick-product-info .prod-variants {
+  margin-top: 10px;
+}
+.quickview-container .quickview-inner .quick-product-info .prod-variants .prod-option .option-title {
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 500;
+}
+.quickview-container .quickview-inner .quick-product-info .prod-variants .prod-option .qv-option-value {
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 10px;
+  border: 1px solid #e6e6e6;
+  border-radius: 4px;
+  margin: 10px 0;
+  transition: all 0.2s;
+}
+.quickview-container .quickview-inner .quick-product-info .prod-variants .prod-option .qv-option-value.active {
+  background-color: #0ec1ae;
+  color: white;
+  border-color: #0ec1ae;
+}
+.quickview-container .quickview-inner .quick-product-info .prod-variants .prod-option .qv-option-value:hover {
+  border-color: black;
+}
+.quickview-container .quickview-inner .quick-product-info .add-to-cart-and-quantity {
+  display: flex;
+  height: 55px;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+  margin-top: 20px;
+}
+@media (max-width: 768px) {
+  .quickview-container .quickview-inner .quick-product-info .add-to-cart-and-quantity {
+    flex-direction: column;
+  }
+}
+.quickview-container .quickview-inner .quick-product-info .add-to-cart-and-quantity .prod-quantity {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 2px solid #e6e6e6;
+  min-width: 140px;
+  width: 140px;
+}
+.quickview-container .quickview-inner .quick-product-info .add-to-cart-and-quantity .prod-quantity .quantity-selector {
+  font-size: 28px;
+  background: none;
+  color: #e6e6e6;
+  padding: 0 15px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.quickview-container .quickview-inner .quick-product-info .add-to-cart-and-quantity .prod-quantity .quantity-selector:hover {
+  color: #0ec1ae;
+}
+.quickview-container .quickview-inner .quick-product-info .add-to-cart-and-quantity .prod-quantity input {
+  border: none;
+  height: 100%;
+  text-align: center;
+  width: 35px;
+  font-size: 18px;
+  font-weight: 500;
+}
+.quickview-container .quickview-inner .quick-product-info .add-to-cart-and-quantity .prod-quantity input::-webkit-outer-spin-button, .quickview-container .quickview-inner .quick-product-info .add-to-cart-and-quantity .prod-quantity input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.quickview-container .quickview-inner .quick-product-info .add-to-cart-and-quantity .quick-view-add-to-cart-button {
+  padding: 10px 20px;
+  background-color: black;
+  color: white;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.2s;
+  height: 100%;
+  width: 100%;
+  min-width: 140px;
+  max-width: 300px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.quickview-container .quickview-inner .quick-product-info .add-to-cart-and-quantity .quick-view-add-to-cart-button:hover {
+  color: white;
+  background-color: #0ec1ae;
+}
+.quickview-container .quickview-inner .quick-product-info .add-to-cart-and-quantity .quick-view-add-to-cart-button .add-cart-button-text {
+  visibility: visible;
+  opacity: 1;
+  transition: all 0.2s;
+}
+.quickview-container .quickview-inner .quick-product-info .add-to-cart-and-quantity .quick-view-add-to-cart-button.waiting .add-cart-button-text {
+  visibility: hidden;
+  opacity: 0;
+}
+.quickview-container .quickview-inner .quick-product-info .add-to-cart-and-quantity .quick-view-add-to-cart-button .lds-dual-ring {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.2s;
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(-50%, -50%);
+}
+.quickview-container .quickview-inner .quick-product-info .add-to-cart-and-quantity .quick-view-add-to-cart-button .lds-dual-ring.active {
+  display: inline-block;
+  visibility: visible;
+  opacity: 1;
+}
+.quickview-container .quickview-inner .quick-product-info .add-to-cart-and-quantity .quick-view-add-to-cart-button .lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 10px;
+  height: 10px;
+  margin-left: 8px;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.quickview-container .quickview-inner .quick-product-info .wis_cp_container {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 40px;
+}
+.quickview-container .quickview-inner .quick-product-info .wis_cp_container .wis-button-container, .quickview-container .quickview-inner .quick-product-info .wis_cp_container .cp-button-container {
+  display: flex;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.quickview-container .quickview-inner .quick-product-info .wis_cp_container .wis-button-container:hover, .quickview-container .quickview-inner .quick-product-info .wis_cp_container .cp-button-container:hover {
+  color: #0ec1ae;
+}
+.quickview-container .quickview-inner .quick-product-info .wis_cp_container .wis-button-container:hover .wis-button-icon, .quickview-container .quickview-inner .quick-product-info .wis_cp_container .wis-button-container:hover .cp-button-icon, .quickview-container .quickview-inner .quick-product-info .wis_cp_container .cp-button-container:hover .wis-button-icon, .quickview-container .quickview-inner .quick-product-info .wis_cp_container .cp-button-container:hover .cp-button-icon {
+  border-color: #0ec1ae;
+}
+.quickview-container .quickview-inner .quick-product-info .wis_cp_container .wis-button-container .wis-button-icon, .quickview-container .quickview-inner .quick-product-info .wis_cp_container .wis-button-container .cp-button-icon, .quickview-container .quickview-inner .quick-product-info .wis_cp_container .cp-button-container .wis-button-icon, .quickview-container .quickview-inner .quick-product-info .wis_cp_container .cp-button-container .cp-button-icon {
+  height: 40px;
+  width: 40px;
+  border: 1px solid black;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.quickview-container .quickview-inner .quick-product-info .wis_cp_container .wis-button-container .wis-button-icon svg, .quickview-container .quickview-inner .quick-product-info .wis_cp_container .wis-button-container .cp-button-icon svg, .quickview-container .quickview-inner .quick-product-info .wis_cp_container .cp-button-container .wis-button-icon svg, .quickview-container .quickview-inner .quick-product-info .wis_cp_container .cp-button-container .cp-button-icon svg {
+  width: 15px;
+  height: 13px;
+  fill: none;
+  pointer-events: none;
+  transition: all 0.2s;
+}
+.quickview-container .quickview-inner .quick-product-info .wis_cp_container .wis-button-container.active {
+  color: red;
+}
+.quickview-container .quickview-inner .quick-product-info .wis_cp_container .wis-button-container.active .wis-button-icon {
+  border-color: red;
+}
+.quickview-container .quickview-inner .quick-product-info .wis_cp_container .wis-button-container.active .wis-button-icon svg {
+  fill: red;
+}
+.quickview-container .quickview-inner .quick-product-info .qv-product-link {
+  display: block;
+  margin: 50px 0;
+}
+.quickview-container .quickview-inner .quick-product-info .qv-product-link:hover {
+  color: #0ec1ae;
 }/*# sourceMappingURL=theme.css.map */

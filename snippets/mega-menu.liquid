@@ -22,9 +22,49 @@
           {% endfor %}
         </div>
       {% endfor %}
-      {% if link.title == 'Blogs' %}
+
+      {% case link.title %}
+        {% when 'Blogs' %}
         <div>Blog article</div>
-      {% endif %}
+        {% when 'Catalog' %}
+        <div class="menu-collections-items">
+          {% assign collection1 = collections['women'] %}
+          <a href="{{ collection1.url }}" class="menu-collections-item">
+            <div class="menu-collections-item-title">{{ collection1.title }}</div>
+            <img
+              src="{{ collection1 | img_url: '400x555' }}"
+              loading="lazy"
+              class="menu-collections-item-img"
+              alt="">
+          </a>
+          {% assign collection2 = collections['men'] %}
+          <a href="{{ collection2.url }}" class="menu-collections-item">
+            <div class="menu-collections-item-title">{{ collection2.title }}</div>
+            <img
+              src="{{ collection2 | img_url: '400x555' }}"
+              loading="lazy"
+              class="menu-collections-item-img"
+              alt="">
+          </a>
+          <div class="menu-collections-item"></div>
+        </div>
+        <div class="top-rated-products">
+          <div class="section-title">TOP RATED</div>
+          {% for product in collections['all'].products limit: 5 %}
+            <a href="{{ product.url }}" class="top-rated-product">
+              <div class="top-rated-product-image">
+                <img src="{{ product.featured_image | img_url: 'small' }}" alt="{{ product.title }}">
+              </div>
+              <div class="top-rated-product-info">
+                <div class="top-rated-product-title">{{ product.title }}</div>
+                <div class="top-rated-product-price">{{ product.price | money }}</div>
+              </div>
+            </a>
+          {% endfor %}
+        </div>
+    {% else %}
+
+      {% endcase %}
     </div>
   {% else %}
     <div>childlinks level 1</div>

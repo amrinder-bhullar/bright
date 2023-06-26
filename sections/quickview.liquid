@@ -1,0 +1,134 @@
+{% assign selected_variant = product.selected_or_first_available_variant %}
+<section class="quickview-container">
+  <div class="quickview-inner" data-section-quickview="{{ section.id }}">
+    <div class="quick-product-images">
+      {% unless product.media.size < 1 %}
+        {% for image in product.media %}
+          <img
+            src="{{ image | img_url: 'large' }}"
+            alt="{{ product.title }}"
+            loading="lazy"
+            width="100">
+        {% endfor %}
+      {% else %}
+        <img
+          src="{{ product.images.first | img_url: 'large' }}"
+          alt="{{ product.title }}"
+          loading="lazy"
+          width="100">
+      {% endunless %}
+    </div>
+    <div class="quick-product-info">
+      {% form 'product', product, id: 'quick-product-form', novalidate: 'novalidate' %}
+        <input
+          type="hidden"
+          name="id"
+          value="{{ selected_variant.id }}">
+        <h3 class="prod-title">{{ product.title }}</h3>
+        <div class="prod-price">
+          {% if selected_variant.price > selected_variant.compare_at_price %}
+            <span class="dicounted-original-price">{{ selected_variant.price | money }}</span>
+            <span class="prod-discounted-price">
+              {{ selected_variant.compare_at_price | money }}</span>
+          {% else %}
+            <span>{{ selected_variant.price | money }}</span>
+          {% endif %}
+        </div>
+        <p class="prod-short-desc">{{ product.description | truncatewords: 15 | strip_html }}</p>
+        <div class="prod-variants" data-url="{{ product.url }}">
+          {% unless product.has_only_default_variant %}
+            {% for option in product.options_with_values %}
+              <div class="prod-option">
+                <div class="option-title">{{ option.name | escape }} : {{ option.selected_value }}</div>
+                {% for value in option.values %}
+                  <span
+                    data-swatch-type="{{option.name}}"
+                    data-slide="{{ forloop.index0 }}"
+                    class="qv-option-value{% if option.selected_value == value %} is_selected active {% endif %}"
+                    data-value="{{ value }}">{{ value }}</span>
+                {% endfor %}
+              </div>
+            {% endfor %}
+          {% endunless %}
+          <script type="application/json">
+            {{ product.variants | json }}
+          </script>
+        </div>
+        <div class="add-to-cart-and-quantity">
+          <div class="prod-quantity">
+            <button class="quantity-selector is--minus">-</button>
+            <input
+              type="number"
+              class="prod-quantity-input"
+              name="quantity"
+              min="1"
+              id="Quantity-{{section.id}}"
+              size="4"
+              pattern="[0-9]*"
+              inputmode="numeric"
+              data-current-qty=""
+              value="1">
+            <button class="quantity-selector is--plus">+</button>
+          </div>
+          <button
+            type="submit"
+            name="add"
+            class="quick-view-add-to-cart-button"
+            {% if selected_variant.available == false %}
+            disabled
+            {% endif %}>
+            {% if
+ selected_variant.available == false %}
+              Soldout
+            {% else %}
+              <span class="add-cart-button-text">Add to Cart</span>
+            {% endif %}
+            <span class="lds-dual-ring"></span>
+          </button>
+        </div>
+      {% endform %}
+      <!-- wishlist and compare block -->
+      <div class="wis_cp_container">
+        <a
+          href="{{ product.url }}"
+          data-id="{{ selected_variant.id }}"
+          data-productID="{{ product.id }}"
+          class="wis-button-container wishlist-product">
+          <span class="wis-button-icon">
+            {% include 'heart-icon' %}
+          </span>
+          <span class="wis-button-text">Add to wishlist</span>
+        </a>
+        <a
+          href="{{ product.url }}"
+          data-id="{{ selected_variant.id }}"
+          class="cp-button-container">
+          <span class="cp-button-icon">
+            {% include 'compare-icon' %}
+          </span>
+          <span class="cp-button-text">compare</span>
+        </a>
+      </div>
+      <a href="{{ product.url }}" class="qv-product-link">
+        view full details
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+    <button type="button" class="quickview-close">
+      <i class="fa-solid fa-x"></i>
+    </button>
+  </div>
+</section>
+
+
+{% schema %}
+  {
+    "name": "quickview",
+    "settings": [],
+    "presets": [
+      {
+        "name": "quickview"
+      }
+    ]
+  }
+{% endschema %}

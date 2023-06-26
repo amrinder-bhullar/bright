@@ -25,17 +25,21 @@ fetch(
   .then((response) => response.text())
   .then((data) => {
     updateUIelement(data, "#product-recommendations");
+    checkWishlistedProducts();
   });
 
 let recentlySeenItems = [];
 
 if ("recently_seen" in localStorage) {
   recentlySeenItems = JSON.parse(localStorage.getItem("recently_seen"));
-  if (!recentlySeenItems.includes(`id:${productId}`)) {
-    recentlySeenItems = [`id:${productId}`, ...recentlySeenItems];
+  if (recentlySeenItems.includes(`id:${productId}`)) {
+    recentlySeenItems = recentlySeenItems.filter(
+      (item) => item !== `id:${productId}`
+    );
     if (recentlySeenItems.length > 10) recentlySeenItems.pop();
-    localStorage.setItem("recently_seen", JSON.stringify(recentlySeenItems));
   }
+  recentlySeenItems = [`id:${productId}`, ...recentlySeenItems];
+  localStorage.setItem("recently_seen", JSON.stringify(recentlySeenItems));
 } else {
   recentlySeenItems = [`id:${productId}`];
   localStorage.setItem("recently_seen", JSON.stringify(recentlySeenItems));
@@ -54,4 +58,5 @@ fetch(
   .then((response) => response.text())
   .then((data) => {
     updateUIelement(data, "#recently-visited");
+    checkWishlistedProducts();
   });

@@ -78,10 +78,9 @@
           {%- case block.type -%}
           {%- when '@app' -%}
             {% render block %}
-            {% endcase %}
-        {% endfor %}
-      
+          {%- when 'title' -%}
         <h1 class="prod-title">{{ product.title }}</h1>
+          {%- when 'price' -%}
         <div class="prod-price">
           {% if selected_variant.price > selected_variant.compare_at_price %}
             <span class="dicounted-original-price">{{ selected_variant.price | money }}</span>
@@ -91,7 +90,9 @@
             <span>{{ selected_variant.price | money }}</span>
           {% endif %}
         </div>
+      {%- when 'description' -%}
         <p class="prod-short-desc">{{ product.description | truncatewords: 15 | strip_html }}</p>
+      {%- when 'variant_selector' -%}
         <div class="prod-variants" data-url="{{ product.url }}">
           {% unless product.has_only_default_variant %}
             {% for option in product.options_with_values %}
@@ -111,6 +112,10 @@
             {{ product.variants | json }}
           </script>
         </div>
+      {%- when 'variant_selector' -%}
+            {% endcase %}
+        {% endfor %}
+      
       {% form 'product', product, id: 'product-form', novalidate: 'novalidate' %}
         <input
           type="hidden"

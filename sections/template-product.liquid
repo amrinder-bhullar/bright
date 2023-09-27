@@ -79,12 +79,8 @@
           {%- when '@app' -%}
             {% render block %}
             {% endcase %}
-        {% endfor %}}
-      {% form 'product', product, id: 'product-form', novalidate: 'novalidate' %}
-        <input
-          type="hidden"
-          name="id"
-          value="{{ selected_variant.id }}">
+        {% endfor %}
+      
         <h1 class="prod-title">{{ product.title }}</h1>
         <div class="prod-price">
           {% if selected_variant.price > selected_variant.compare_at_price %}
@@ -115,6 +111,11 @@
             {{ product.variants | json }}
           </script>
         </div>
+      {% form 'product', product, id: 'product-form', novalidate: 'novalidate' %}
+        <input
+          type="hidden"
+          name="id"
+          value="{{ selected_variant.id }}">
         <div class="add-to-cart-and-quantity">
           <div class="prod-quantity">
             <button class="quantity-selector is--minus">-</button>

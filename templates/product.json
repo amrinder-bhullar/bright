@@ -37,6 +37,35 @@
           "type": "checkout_button",
           "settings": {
           }
+        },
+        "3f431405-5780-4580-af2c-31a4e43c9e3a": {
+          "type": "wishlist",
+          "settings": {
+          }
+        },
+        "671209d2-a70a-4ecc-8b8c-a7fbef86529b": {
+          "type": "product-popups",
+          "settings": {
+          }
+        },
+        "af00c7a7-cc82-4205-9d6e-81afc1be887f": {
+          "type": "shopify:\/\/apps\/faker\/blocks\/star_rating\/77337056-47b3-4de2-a0ad-147e49ebb3d5",
+          "settings": {
+            "product": "",
+            "colour": "#ff0000",
+            "heading": "You can buy these products togather to save!",
+            "padding": 0
+          }
+        },
+        "e305454b-ff18-4a70-a124-c85c66775e13": {
+          "type": "tags",
+          "settings": {
+          }
+        },
+        "e695445b-fffa-4f2f-a712-877f046394cb": {
+          "type": "social",
+          "settings": {
+          }
         }
       },
       "block_order": [
@@ -46,7 +75,12 @@
         "variant_selector",
         "quantity",
         "description",
-        "checkout_button"
+        "checkout_button",
+        "3f431405-5780-4580-af2c-31a4e43c9e3a",
+        "671209d2-a70a-4ecc-8b8c-a7fbef86529b",
+        "af00c7a7-cc82-4205-9d6e-81afc1be887f",
+        "e305454b-ff18-4a70-a124-c85c66775e13",
+        "e695445b-fffa-4f2f-a712-877f046394cb"
       ],
       "settings": {
         "thirdTabContent": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit laudantium aut est magnam, accusantium vitae adipisci enim cum dignissimos dolore perspiciatis porro distinctio, assumenda quas eligendi consequatur, dolorum animi dolorem architecto sunt? Id culpa ad quis nulla dolorem numquam neque!"
@@ -59,7 +93,9 @@
           "type": "shopify:\/\/apps\/faker\/blocks\/star_rating\/77337056-47b3-4de2-a0ad-147e49ebb3d5",
           "settings": {
             "product": "{{product}}",
-            "colour": "#ff0000"
+            "colour": "#ff0000",
+            "heading": "You can buy these products togather to save!",
+            "padding": 0
           }
         }
       },

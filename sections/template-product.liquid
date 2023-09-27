@@ -112,10 +112,7 @@
             {{ product.variants | json }}
           </script>
         </div>
-      {%- when 'variant_selector' -%}
-            {% endcase %}
-        {% endfor %}
-      
+      {%- when 'checkout_button' -%}
       {% form 'product', product, id: 'product-form', novalidate: 'novalidate' %}
         <input
           type="hidden"
@@ -154,6 +151,7 @@
           </button>
         </div>
       {% endform %}
+            {%- when 'wishlist' -%}
       <!-- wishlist and compare block -->
       <div class="wis_cp_container">
         <a
@@ -176,11 +174,13 @@
           <span class="cp-button-text">compare</span>
         </a>
       </div>
+            {%- when 'product-popups' -%}
       {% comment %} Popups {% endcomment %}
       <div class="product-info-popups-container">
         <a href="{{ product.url }}">Delivery & Return</a>
         <a href="{{ product.url }}">Ask a question</a>
       </div>
+            {%- when 'tags' -%}
       <div class="product-tags">
         <span class="product-tags-title">Categories:
         </span>
@@ -189,11 +189,15 @@
           </a>
         {% endfor %}
       </div>
-      <!-- <div class="bundle-div"></div> -->
+            {%- when 'social' -%}
       <div class="prod-social-share">
         <div class="social-share-title">Share:</div>
         {% render 'socials' %}
       </div>
+            {% endcase %}
+        {% endfor %}
+      
+      <!-- <div class="bundle-div"></div> -->
     </div>
   </div>
 </div>
@@ -268,6 +272,25 @@
         "limit": 1
       }, {
         "type": "@app"
+      },
+      {
+        "type": "wishlist",
+        "name": "Wishlist and compare",
+        "limit": 1
+      },
+      {
+        "type": "product-popups",
+        "name": "Product info",
+        "limit": 1
+      },{
+        "type": "tags",
+        "name": "Product tags",
+        "limit": 1
+      },
+      {
+        "type": "social",
+        "name": "share product",
+        "limit": 1
       }
     ],
     "settings": [

@@ -74,6 +74,12 @@
       </div>
     {% endif %}
     <div class="product-info">
+      {%- for block in section.blocks -%}
+          {%- case block.type -%}
+          {%- when '@app' -%}
+            {% render block %}
+            {% endcase %}
+        {% endfor %}}
       {% form 'product', product, id: 'product-form', novalidate: 'novalidate' %}
         <input
           type="hidden"

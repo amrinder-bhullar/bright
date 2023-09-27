@@ -56,10 +56,29 @@
       "type": "related-products",
       "settings": {
       }
+    },
+    "169581278767c28b86": {
+      "type": "apps",
+      "blocks": {
+        "70ba7b7d-d59d-4728-a86e-3efd611e426b": {
+          "type": "shopify:\/\/apps\/faker\/blocks\/star_rating\/77337056-47b3-4de2-a0ad-147e49ebb3d5",
+          "settings": {
+            "product": "{{product}}",
+            "colour": "#ff0000"
+          }
+        }
+      },
+      "block_order": [
+        "70ba7b7d-d59d-4728-a86e-3efd611e426b"
+      ],
+      "settings": {
+        "include_padding": true
+      }
     }
   },
   "order": [
     "template",
-    "ef0dab66-e6d0-48a8-a5ed-73406da12828"
+    "ef0dab66-e6d0-48a8-a5ed-73406da12828",
+    "169581278767c28b86"
   ]
 }

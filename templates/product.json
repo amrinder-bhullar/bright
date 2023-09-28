@@ -53,7 +53,7 @@
           "settings": {
             "product": "",
             "colour": "#ff0000",
-            "heading": "You can buy these products togather to save!",
+            "heading": "You can buy these products togather to save!{{ block.settings.product.title }}",
             "padding": 0
           }
         },

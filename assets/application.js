@@ -82,8 +82,9 @@ const showElement = (
   if (
     selectorOfElementToShow === ".cart-drawer" &&
     window.location.pathname === "/cart"
-  )
+  ) {
     return;
+  }
   const classAdded = addGlobalEventListener(
     "click",
     `${buttonSelector}, ${buttonSelector} *`,

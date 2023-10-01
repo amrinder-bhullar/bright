@@ -53,7 +53,7 @@
         }
       },
         "related-products": {
-          "type" : "related-products"
+          "type" : "related"
         }
     },
     "order": [

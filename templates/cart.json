@@ -1,8 +1,18 @@
 {
-    "sections": {
-        "template": {
-            "type": "template-cart"
-        }
+  "sections": {
+    "template": {
+      "type": "template-cart",
+      "settings": {
+      }
     },
-    "order": ["template"]
+    "db3eb447-997f-4270-9416-d5aff3eff10c": {
+      "type": "related-products",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "template",
+    "db3eb447-997f-4270-9416-d5aff3eff10c"
+  ]
 }

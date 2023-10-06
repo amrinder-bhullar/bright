@@ -5,47 +5,67 @@
       "blocks": {
         "vendor": {
           "type": "vendor",
-          "settings": {}
+          "settings": {
+          }
         },
         "title": {
           "type": "title",
-          "settings": {}
+          "settings": {
+          }
         },
         "price": {
           "type": "price",
-          "settings": {}
+          "settings": {
+          }
         },
         "variant_selector": {
           "type": "variant_selector",
-          "settings": {}
+          "settings": {
+          }
         },
         "quantity": {
           "type": "quantity",
-          "settings": {}
+          "settings": {
+          }
         },
         "description": {
           "type": "description",
-          "settings": {}
+          "settings": {
+          }
         },
         "checkout_button": {
           "type": "checkout_button",
-          "settings": {}
+          "settings": {
+          }
         },
         "wishlist": {
           "type": "wishlist",
-          "settings": {}
+          "settings": {
+          }
+        },
+        "440cc06f-9c81-48e1-ab49-1e8b1d3b4554": {
+          "type": "shopify:\/\/apps\/faker\/blocks\/star_rating\/77337056-47b3-4de2-a0ad-147e49ebb3d5",
+          "settings": {
+            "product": "{{product}}",
+            "colour": "#ff0000",
+            "heading": "You can buy these products togather to save!",
+            "padding": 0
+          }
         },
         "product-popups": {
           "type": "product-popups",
-          "settings": {}
+          "settings": {
+          }
         },
         "tags": {
           "type": "tags",
-          "settings": {}
+          "settings": {
+          }
         },
         "social": {
           "type": "social",
-          "settings": {}
+          "settings": {
+          }
         }
       },
       "block_order": [
@@ -57,6 +77,7 @@
         "description",
         "checkout_button",
         "wishlist",
+        "440cc06f-9c81-48e1-ab49-1e8b1d3b4554",
         "product-popups",
         "tags",
         "social"
@@ -66,8 +87,13 @@
       }
     },
     "related-products": {
-      "type": "related-products"
+      "type": "related-products",
+      "settings": {
+      }
     }
   },
-  "order": ["template", "related-products"]
+  "order": [
+    "template",
+    "related-products"
+  ]
 }

@@ -202,6 +202,65 @@ menuItemswithSubmenu.forEach((item, index) => {
   });
 });
 
+class TimerComponent extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+
+    // Create a timer element
+    const timerElement = document.createElement("div");
+    timerElement.classList.add("innertimer");
+    this.classList.add("timer");
+    this.shadowRoot.appendChild(timerElement);
+    const endTime = this.dataset.endTime;
+
+    console.log(endTime);
+
+    // Set the timer interval
+    this.interval = setInterval(() => {
+      this.updateTimer();
+    }, 1000);
+  }
+
+  connectedCallback() {
+    this.updateTimer();
+  }
+
+  disconnectedCallback() {
+    clearInterval(this.interval);
+  }
+
+  updateTimer() {
+    const timerDiv = this.shadowRoot.querySelector(".innertimer");
+    const endTime = new Date(2023, 11, 20);
+    const todayDate = new Date();
+    const todayTime = todayDate.getTime();
+    const remainingTime = endTime - todayTime;
+    const oneMin = 60 * 1000;
+    const oneHr = 60 * oneMin;
+    const oneDay = 24 * oneHr;
+
+    const addZeros = (num) => (num < 10 ? `0${num}` : num);
+
+    if (endTime < todayTime) {
+      clearInterval(this.interval);
+      timerDiv.innerHTML = `<h3>Offer time has expired</h3>`;
+    } else {
+      const daysLeft = Math.floor(remainingTime / oneDay);
+      const hrsLeft = Math.floor((remainingTime % oneDay) / oneHr);
+      const minsLeft = Math.floor((remainingTime % oneHr) / oneMin);
+      const secsLeft = Math.floor((remainingTime % oneMin) / 1000);
+
+      timerDiv.innerHTML = `${addZeros(daysLeft)} Days : ${addZeros(
+        hrsLeft
+      )} Hours : ${addZeros(minsLeft)} mins : ${addZeros(secsLeft)} seconds`;
+    }
+  }
+}
+
+// Define the custom element
+customElements.define("timer-component", TimerComponent);
+
 if (window.location.pathname === "/") {
   new Splide(".splide.hero", {
     // rewind: true,
@@ -209,40 +268,40 @@ if (window.location.pathname === "/") {
     pagination: false,
   }).mount();
 
-  // timer
-  const timerDiv = document.querySelector(".timer");
+  // // timer
+  // const timerDiv = document.querySelector(".timer");
 
-  const timer = () => {
-    let endTime = new Date(2023, 11, 20);
-    let todayDate = new Date();
-    let todayTime = todayDate.getTime();
-    let remainingTime = endTime - todayTime;
-    let oneMin = 60 * 1000;
-    let oneHr = 60 * oneMin;
-    let oneDay = 24 * oneHr;
+  // const timer = () => {
+  //   let endTime = new Date(2023, 11, 20);
+  //   let todayDate = new Date();
+  //   let todayTime = todayDate.getTime();
+  //   let remainingTime = endTime - todayTime;
+  //   let oneMin = 60 * 1000;
+  //   let oneHr = 60 * oneMin;
+  //   let oneDay = 24 * oneHr;
 
-    let addZeros = (num) => (num < 10 ? `0${num}` : num);
+  //   let addZeros = (num) => (num < 10 ? `0${num}` : num);
 
-    if (endTime < todayTime) {
-      clearInterval(i);
-      timerDiv.innerHTML = `<h3>Offer time has expired</h3>`;
-    } else {
-      let daysLeft = Math.floor(remainingTime / oneDay);
-      let hrsLeft = Math.floor((remainingTime % oneDay) / oneHr);
-      let minsLeft = Math.floor((remainingTime % oneHr) / oneMin);
-      let secsLeft = Math.floor((remainingTime % oneMin) / 1000);
+  //   if (endTime < todayTime) {
+  //     clearInterval(i);
+  //     timerDiv.innerHTML = `<h3>Offer time has expired</h3>`;
+  //   } else {
+  //     let daysLeft = Math.floor(remainingTime / oneDay);
+  //     let hrsLeft = Math.floor((remainingTime % oneDay) / oneHr);
+  //     let minsLeft = Math.floor((remainingTime % oneHr) / oneMin);
+  //     let secsLeft = Math.floor((remainingTime % oneMin) / 1000);
 
-      // console.log(daysLeft, hrsLeft, minsLeft, secsLeft);
-      timerDiv.innerHTML = `${addZeros(daysLeft)} Days : ${addZeros(
-        hrsLeft
-      )} Hours : ${addZeros(minsLeft)} mins : ${addZeros(secsLeft)} seconds`;
-    }
-  };
+  //     // console.log(daysLeft, hrsLeft, minsLeft, secsLeft);
+  //     timerDiv.innerHTML = `${addZeros(daysLeft)} Days : ${addZeros(
+  //       hrsLeft
+  //     )} Hours : ${addZeros(minsLeft)} mins : ${addZeros(secsLeft)} seconds`;
+  //   }
+  // };
 
-  if (timerDiv !== null) {
-    timer();
-    let i = setInterval(timer, 1000);
-  }
+  // if (timerDiv !== null) {
+  //   timer();
+  //   let i = setInterval(timer, 1000);
+  // }
 
   const carouselNavButtons = document.querySelectorAll(
     ".carousel-nav-button span"

@@ -1,43 +1,45 @@
 {% render 'banner-top' %}
 <footer>
-  <section>
-    <h3>ABOUT US</h3>
-    <ul>
-      <li>
-        <a href="#">Our Story</a>
-      </li>
-      <li>
-        <a href="#">Store Locations</a>
-      </li>
-      <li>Careers</li>
-      <li>Our Blog</li>
-      <li>Brands</li>
-      <li>Contact Us</li>
-    </ul>
-  </section>
-  <section>
-    <h3>CATEGORIES</h3>
-    <ul>
-      <li>Men</li>
-      <li>Store Locations</li>
-      <li>Careers</li>
-      <li>Our Blog</li>
-      <li>Brands</li>
-      <li>Contact Us</li>
-    </ul>
-  </section>
-  <section>
-    <h3>CUSTOMER CARE</h3>
-    <ul>
-      <li>FAQs</li>
-      <li>Store Locations</li>
-      <li>Careers</li>
-      <li>Our Blog</li>
-      <li>Brands</li>
-      <li>Contact Us</li>
-    </ul>
-  </section>
-  {% include 'newsletter' %}
+  <div class="footer-sections">
+    <section>
+      <h3>ABOUT US</h3>
+      <ul>
+        <li>
+          <a href="#">Our Story</a>
+        </li>
+        <li>
+          <a href="#">Store Locations</a>
+        </li>
+        <li>Careers</li>
+        <li>Our Blog</li>
+        <li>Brands</li>
+        <li>Contact Us</li>
+      </ul>
+    </section>
+    <section>
+      <h3>CATEGORIES</h3>
+      <ul>
+        <li>Men</li>
+        <li>Store Locations</li>
+        <li>Careers</li>
+        <li>Our Blog</li>
+        <li>Brands</li>
+        <li>Contact Us</li>
+      </ul>
+    </section>
+    <section>
+      <h3>CUSTOMER CARE</h3>
+      <ul>
+        <li>FAQs</li>
+        <li>Store Locations</li>
+        <li>Careers</li>
+        <li>Our Blog</li>
+        <li>Brands</li>
+        <li>Contact Us</li>
+      </ul>
+    </section>
+    {% render 'newsletter' %}
+  </div>
 </footer>
 
 {% schema %}

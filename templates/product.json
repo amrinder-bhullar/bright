@@ -1,63 +1,73 @@
 {
-    "sections": {
-      "template": {
-        "type": "template-product",
-        "blocks": {
-          "vendor": {
-            "type": "vendor",
-            "settings": {
-            }
-          },
-          "title": {
-            "type": "title",
-            "settings": {
-            }
-          },
-          "price": {
-            "type": "price",
-            "settings": {
-            }
-          },
-          "variant_selector": {
-            "type": "variant_selector",
-            "settings": {
-            }
-          },
-          "quantity": {
-            "type": "quantity",
-            "settings": {
-            }
-          },
-          "description": {
-            "type": "description",
-            "settings": {
-            }
-          },
-          "checkout_button": {
-            "type": "checkout_button",
-            "settings": {
-            }
-          }
+  "sections": {
+    "template": {
+      "type": "template-product",
+      "blocks": {
+        "vendor": {
+          "type": "vendor",
+          "settings": {}
         },
-        "block_order": [
-          "vendor",
-          "title",
-          "price",
-          "variant_selector",
-          "quantity",
-          "description",
-          "checkout_button"
-        ],
-        "settings": {
-          "thirdTabContent": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit laudantium aut est magnam, accusantium vitae adipisci enim cum dignissimos dolore perspiciatis porro distinctio, assumenda quas eligendi consequatur, dolorum animi dolorem architecto sunt? Id culpa ad quis nulla dolorem numquam neque!"
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_selector": {
+          "type": "variant_selector",
+          "settings": {}
+        },
+        "quantity": {
+          "type": "quantity",
+          "settings": {}
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
+        "checkout_button": {
+          "type": "checkout_button",
+          "settings": {}
+        },
+        "wishlist": {
+          "type": "wishlist",
+          "settings": {}
+        },
+        "product-popups": {
+          "type": "product-popups",
+          "settings": {}
+        },
+        "tags": {
+          "type": "tags",
+          "settings": {}
+        },
+        "social": {
+          "type": "social",
+          "settings": {}
         }
       },
-        "related-products": {
-          "type" : "related"
-        }
+      "block_order": [
+        "vendor",
+        "title",
+        "price",
+        "variant_selector",
+        "quantity",
+        "description",
+        "checkout_button",
+        "wishlist",
+        "product-popups",
+        "tags",
+        "social"
+      ],
+      "settings": {
+        "thirdTabContent": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit laudantium aut est magnam, accusantium vitae adipisci enim cum dignissimos dolore perspiciatis porro distinctio, assumenda quas eligendi consequatur, dolorum animi dolorem architecto sunt? Id culpa ad quis nulla dolorem numquam neque!"
+      }
     },
-    "order": [
-      "template", "related-products"
-    ]
-  }
-  
+    "related-products": {
+      "type": "related-products"
+    }
+  },
+  "order": ["template", "related-products"]
+}

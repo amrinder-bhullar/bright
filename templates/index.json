@@ -11,19 +11,7 @@
   "sections": {
     "hero": {
       "type": "hero",
-      "blocks": {
-        "slide_GrBieT": {
-          "type": "Slide",
-          "settings": {
-            "text": "Welcome to our store",
-            "link": "",
-            "button-text": "SHOP NOW"
-          }
-        }
-      },
-      "block_order": [
-        "slide_GrBieT"
-      ],
+      "disabled": true,
       "settings": {
       }
     },

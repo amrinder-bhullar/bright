@@ -1,31 +1,98 @@
+/*
+* ------------------------------------------------------------
+* IMPORTANT: The contents of this file are auto-generated.
+*
+* This file may be updated by the Shopify admin theme editor
+* or related systems. Please exercise caution as any changes
+* made to this file may be overwritten.
+* ------------------------------------------------------------
+*/
 {
-    "name": "index",
-    "sections": {
-      "hero": {
-        "type": "hero",
-        "settings": {
-        }
-        },
-        "timer":{
-            "type":"timer"
-        },
-        "home-product-carousel": {
-          "type": "home-product-carousel"
-        },
-        "collection-slider":{
-          "type": "collection-slider"
-        },
-        "image-with-text":{
-          "type": "image-with-text"
-        },
-          "testimonials-slider":{
-            "type": "testimonials-slider"
-          },
-          "instagram-slider":{
-            "type": "instagram-slider"
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "blocks": {
+        "slide_GrBieT": {
+          "type": "Slide",
+          "settings": {
+            "text": "Welcome to our store",
+            "link": "",
+            "button-text": "SHOP NOW"
           }
-        
+        }
+      },
+      "block_order": [
+        "slide_GrBieT"
+      ],
+      "settings": {
+      }
     },
-    "order": ["hero","timer","home-product-carousel","collection-slider","image-with-text","testimonials-slider","instagram-slider"]
-  }
-  
+    "timer": {
+      "type": "timer",
+      "settings": {
+        "end_time": "30\/12\/2023 23:00:00",
+        "heading": "Deal of the day",
+        "url": "",
+        "button_text": "View full details"
+      }
+    },
+    "home-product-carousel": {
+      "type": "home-product-carousel",
+      "settings": {
+        "selected_collections_1": [
+
+        ],
+        "selected_collections_2": [
+
+        ],
+        "selected_collections_3": [
+
+        ]
+      }
+    },
+    "collection-slider": {
+      "type": "collection-slider",
+      "settings": {
+        "selected_collections": [
+
+        ]
+      }
+    },
+    "image-with-text": {
+      "type": "image-with-text",
+      "settings": {
+        "button_text": "READ MORE",
+        "button_url": "\/"
+      }
+    },
+    "testimonials-slider": {
+      "type": "testimonials-slider",
+      "settings": {
+        "title_text": "From The People",
+        "stars": 5
+      }
+    },
+    "instagram-slider": {
+      "type": "instagram-slider",
+      "settings": {
+      }
+    },
+    "ilustration_slider_bz4aYe": {
+      "type": "ilustration-slider",
+      "settings": {
+        "title_text": "From The People",
+        "stars": 5
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "timer",
+    "home-product-carousel",
+    "collection-slider",
+    "image-with-text",
+    "testimonials-slider",
+    "instagram-slider",
+    "ilustration_slider_bz4aYe"
+  ]
+}

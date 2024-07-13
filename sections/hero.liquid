@@ -2,44 +2,49 @@
 
   <div class="splide__track">
     <ul class="splide__list">
-      <li class="splide__slide">
+      {% comment %} <li class="splide__slide">
         <div class="slide-info-box">
-          <h1>End of <br>season sale</h1>
-          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt, dolor?</p>
+        <h1>End of <br>season sale</h1>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt, dolor?</p>
 
-          <a href="{{ section.settings.product1_url.url }}">
-            <button>Buy Now</button>
-          </a>
+        <a href="#">
+        <button>Buy Now</button>
+        </a>
         </div>
+        <!--
         {% if section.settings.heroBackground != blank %}
-          <img
-            src="{{ section.settings.image1.src | image_url: 'master' }}"
-            loading="lazy"
-            alt="">
+        <img
+        src="{{ section.settings.image1.src | image_url: 'master' }}"
+        loading="lazy"
+        alt="">
         {% else %}
-          <img
-            src="https://cdn.shopify.com/s/files/1/0651/3157/7585/files/f17-sl3.jpg?v=1661240357&width=2000"
-            loading="lazy"
-            alt="">;
-        {% endif %}
+        {% endif %} -->
+        <img
+        src="https://cdn.shopify.com/s/files/1/0651/3157/7585/files/f17-sl3.jpg?v=1661240357&width=2000"
+        loading="lazy"
+        alt="">;
 
-      </li>
-      <li class="splide__slide">
+      </li> {% endcomment %}
+      {%- for block in section.blocks -%}
+        <li class="splide__slide">
+          <div class="slide-info-box">
+            <h1>Surf the sunset</h1>
+            <p>{{ block.settings.text }}</p>
+            <button>
+              <a href="{{ block.settings.link }}">{{ block.settings.button-text }}</a>
+            </button>
+          </div>
+          {{ block.settings.slider-image | image_url: width: "2000" | image_tag: widths: '550, 720, 990, 1100, 1500, 2200, 3000' }}
+        </li>
+      {% endfor %}
+      {% comment %} <li class="splide__slide">
         <div class="slide-info-box">
-          <h1>Surf <br>the sunset</h1>
-          <p>Colour the summer in hot fuscia, bubblegum pink</p>
-          <button>SHOP NOW</button>
-        </div>
-        <img src="https://cdn.shopify.com/s/files/1/0651/3157/7585/files/fs17-sl1.jpg?v=1660789054" alt="">
-      </li>
-      <li class="splide__slide">
-        <div class="slide-info-box">
-          <h1>Spring <br>Collection</h1>
-          <p>Colour the summer in hot fuscia, bubblegum pink</p>
-          <button>SHOP NOW</button>
+        <h1>Spring <br>Collection</h1>
+        <p>Colour the summer in hot fuscia, bubblegum pink</p>
+        <button>SHOP NOW</button>
         </div>
         <img src="https://cdn.shopify.com/s/files/1/0651/3157/7585/files/f17-sl2.jpg?v=1661240357&width=2000" alt="">
-      </li>
+      </li> {% endcomment %}
     </ul>
   </div>
 </section>
@@ -47,15 +52,33 @@
 {% schema %}
   {
     "name": "hero",
-    "settings": [
+    "max_blocks": 4,
+    "settings": [],
+    "blocks": [
       {
-        "type": "image_picker",
-        "id": "image1",
-        "label": "New background for main image"
-      }, {
-        "type": "product",
-        "id": "product1_url",
-        "label": "Pick the product one for buy now button"
+        "type": "Slide",
+        "name": "Slide",
+        "settings": [
+          {
+            "type": "text",
+            "id": "text",
+            "default": "Welcome to our store",
+            "label": "Text"
+          }, {
+            "type": "url",
+            "id": "link",
+            "label": "Url"
+          }, {
+            "type": "image_picker",
+            "id": "slider-image",
+            "label": "Pick the slide image"
+          }, {
+            "type": "text",
+            "id": "button-text",
+            "default": "SHOP NOW",
+            "label": "Button Text"
+          }
+        ]
       }
     ],
     "presets": [

@@ -351,8 +351,9 @@ html {
   position: relative;
 
   ul li img {
-    width: 105%;
+    // width: 105%;
     height: 100%;
+    max-height: 1080px;
   }
 
   .slide-info-box {
@@ -391,6 +392,9 @@ html {
       &:hover {
         background-color: $primary-hover-color;
         border-color: $primary-hover-color;
+      }
+      a {
+        color: white;
       }
     }
   }
@@ -445,7 +449,7 @@ html {
     padding: 15px;
   }
 
-  button {
+  .product-link {
     display: flex;
     align-items: start;
     border: none;

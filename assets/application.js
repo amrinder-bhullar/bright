@@ -212,9 +212,9 @@ class TimerComponent extends HTMLElement {
     timerElement.classList.add("innertimer");
     this.classList.add("timer");
     this.shadowRoot.appendChild(timerElement);
-    const endTime = this.dataset.endTime;
+    this.endTime = this.getAttribute("data-endTime");
 
-    console.log(endTime);
+    this.endDay = this.endTime.split(" ")[0].split("/").reverse().join(",");
 
     // Set the timer interval
     this.interval = setInterval(() => {
@@ -232,7 +232,7 @@ class TimerComponent extends HTMLElement {
 
   updateTimer() {
     const timerDiv = this.shadowRoot.querySelector(".innertimer");
-    const endTime = new Date(2023, 11, 20);
+    const endTime = new Date(this.endDay);
     const todayDate = new Date();
     const todayTime = todayDate.getTime();
     const remainingTime = endTime - todayTime;

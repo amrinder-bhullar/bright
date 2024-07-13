@@ -244,8 +244,8 @@ html {
   position: relative;
 }
 .splide.hero ul li img {
-  width: 105%;
   height: 100%;
+  max-height: 1080px;
 }
 .splide.hero .slide-info-box {
   position: absolute;
@@ -302,6 +302,9 @@ html {
 .splide.hero .slide-info-box button:hover {
   background-color: #0ec1ae;
   border-color: #0ec1ae;
+}
+.splide.hero .slide-info-box button a {
+  color: white;
 }
 
 .timer-container {
@@ -363,7 +366,7 @@ html {
     padding: 15px;
   }
 }
-.timer-container .timer-box button {
+.timer-container .timer-box .product-link {
   display: flex;
   align-items: start;
   border: none;

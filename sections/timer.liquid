@@ -15,13 +15,9 @@
         data-day="{{ section.settings.day }}"
         data-month="{{section.settings.month}}"
       data-year="{{ section.settings.year }}"></div> {% endcomment %}
-      <timer-component
-        data-day="{{ section.settings.day }}"
-        data-month="{{section.settings.month}}"
-        data-year="{{ section.settings.year }}"
-        data-endtime="{{ section.settings.end_time | date: "%d/%m/%Y %H:%M:%S" }}"></timer-component>
+      <timer-component data-endtime="{{ section.settings.end_time | date: "%d/%m/%Y %H:%M:%S" }}"></timer-component>
       <div>
-        <button>View full details</button>
+        <a href="{{ section.settings.url }}" class="product-link">{{ section.settings.button_text }}</a>
       </div>
     </div>
   </div>
@@ -32,39 +28,26 @@
     "name": "timer",
     "settings": [
       {
-        "type": "product",
-        "id": "product1_url",
-        "label": "Pick the product one for buy now button"
-      },
-      {
-        "type": "range",
-        "id": "day",
-        "default": 20,
-        "label": "pick the day sale starts",
-        "min": 1,
-        "max": 31
-      },
-      {
-        "type": "range",
-        "id": "month",
-        "default": 12,
-        "label": "add the month",
-        "min": 1,
-        "max": 12
-      },
-      {
-        "type": "range",
-        "id": "year",
-        "default": 2023,
-        "label": "add the year",
-        "min": 2023,
-        "max": 2030
-      }, {
         "type": "text",
         "id": "end_time",
         "label": "End date and time",
         "default": "30/12/2023 23:00:00",
         "info": "Format: dd/mm/yyyy hh:mm:ss"
+      }, {
+        "type": "text",
+        "id": "heading",
+        "default": "Deal of the day",
+        "label": "Heading text",
+        "placeholder": "Add the heading text here"
+      }, {
+        "type": "url",
+        "id": "url",
+        "label": "button url"
+      }, {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text",
+        "default": "View full details"
       }
     ],
     "presets": [

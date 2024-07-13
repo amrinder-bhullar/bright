@@ -18,9 +18,9 @@
     "timer": {
       "type": "timer",
       "settings": {
-        "end_time": "30\/12\/2023 23:00:00",
+        "end_time": "30\/12\/2024 23:00:00",
         "heading": "Deal of the day",
-        "url": "",
+        "url": "shopify:\/\/products\/blue-silk-tuxedo",
         "button_text": "View full details"
       }
     },

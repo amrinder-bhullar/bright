@@ -29,11 +29,21 @@
             "slider-image": "shopify:\/\/shop_images\/f17-sl3.jpg_v_1661240357_width_2000.webp",
             "button-text": "SHOP NOW"
           }
+        },
+        "slide_G9B3mG": {
+          "type": "Slide",
+          "settings": {
+            "text": "Welcome to our store",
+            "link": "shopify:\/\/collections\/frontpage",
+            "slider-image": "shopify:\/\/shop_images\/f17-sl2.jpg_v_1661240357_width_2000.webp",
+            "button-text": "SHOP NOW"
+          }
         }
       },
       "block_order": [
         "slide_NJ6kGT",
-        "slide_tL3RhA"
+        "slide_tL3RhA",
+        "slide_G9B3mG"
       ],
       "settings": {
       }

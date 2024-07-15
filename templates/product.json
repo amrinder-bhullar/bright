@@ -54,7 +54,6 @@
         },
         "440cc06f-9c81-48e1-ab49-1e8b1d3b4554": {
           "type": "shopify:\/\/apps\/faker\/blocks\/star_rating\/77337056-47b3-4de2-a0ad-147e49ebb3d5",
-          "disabled": true,
           "settings": {
             "product": "{{product}}",
             "colour": "#ff0000",
